@@ -5,9 +5,7 @@ import { DateTime, Duration } from "luxon";
 import { MonitorDataset } from "./schema/monitor-dataset";
 import { DatovaSada, Theme, Frequency, PodminkyUzitiDilo, PodminkyUzitiDatabazeZvlastni, PodminkyUzitiDatabazeDilo, PodminkyUzitiOsobniUdaje, RuianStat } from "../../../otevrene-formalni-normy-dts/dist/rozhrani-katalogu-otevrenych-dat";
 
-
 (async function () {
-
 
   console.log("Loading datasets...");
   const sourceDatasets: MonitorDataset[] = await axios.get("https://monitor.statnipokladna.cz/data/dataset.json", { responseType: "json" }).then(res => res.data);
@@ -26,7 +24,7 @@ import { DatovaSada, Theme, Frequency, PodminkyUzitiDilo, PodminkyUzitiDatabazeZ
       typ: "Datová sada",
       název: { "cs": sd.title, },
       popis: { "cs": sd.description, },
-      poskytovatel: "https://rpp-opendata.egon.gov.cz/odrpp/zdroj/org%C3%A1n-ve%C5%99ejn%C3%A9-moci/00006947",
+      poskytovatel: "https://rpp-opendata.egon.gov.cz/odrpp/zdroj/orgán-veřejné-moci/00006947",
       téma: [
         Theme.Economics, Theme.Government
       ],
