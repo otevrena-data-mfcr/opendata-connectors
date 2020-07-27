@@ -10,10 +10,11 @@
   "author": "",
   "license": "GPL-3.0-or-later",
   "devDependencies": {
-    "@types/node": "^14.0.25",
+    "@types/node": "^14.0.26",
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "axios": "^0.19.2"
+    "axios": "^0.19.2",
+    "otevrene-formalni-normy-dts": "^0.1.6"
   }
 }
