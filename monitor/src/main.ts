@@ -55,7 +55,7 @@ async function updateSource() {
         "cs": ["státní pokladna", "rozpočet"]
       },
       prvek_rúian: [RuianStat.CeskaRepublika],
-      časové_rozlišení: sd.accrualPeriodicity,
+      časové_rozlišení: periodicityIndex[sd.accrualPeriodicity],
       distribuce: sd.distribution.map(dist => ({
         iri: BASE_URL + "/" + id + "/csv",
         typ: "Distribuce",
