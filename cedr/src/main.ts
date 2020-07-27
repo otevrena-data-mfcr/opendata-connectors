@@ -21,7 +21,7 @@ const endpoints = [
 
 var catalog: Katalog = {
   "@context": "https://pod-test.mvcr.gov.cz/otevřené-formální-normy/rozhraní-katalogů-otevřených-dat/draft/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
-  iri: BASE_URL,
+  iri: BASE_URL + "/",
   typ: "Katalog",
 
   název: {
