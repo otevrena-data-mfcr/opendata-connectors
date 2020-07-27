@@ -1,5 +1,6 @@
 import http from "http";
 import axios from "axios";
+import { snakeCase, sentenceCase } from "change-case";
 
 import { DatovaSada, Frequency, RuianStat, Theme, PodminkyUzitiDilo, PodminkyUzitiDatabazeZvlastni, PodminkyUzitiDatabazeDilo, PodminkyUzitiOsobniUdaje, Katalog, OVM } from "otevrene-formalni-normy-dts";
 import { CedrEndpoint } from "./schema/cedr-endpoint";
@@ -55,17 +56,18 @@ async function getDatasets(endpoint: string): Promise<DatovaSada[]> {
 
   /* Main datasets */
 
-  if(!cedrEndpoint["http://rdfs.org/ns/void#dataDump"]) return [];
+  if (!cedrEndpoint["http://rdfs.org/ns/void#dataDump"]) return [];
 
   cedrEndpoint["http://rdfs.org/ns/void#dataDump"].forEach(sd => {
 
     const urlParts = sd["@id"].match(/^https:\/\/cedropendata.mfcr.cz\/c3lod\/(.+)\.(n3|csv)\.gz$/);
     if (!urlParts) return;
 
-    const name = urlParts[1];
+    const id = urlParts[1];
+    const name = sentenceCase(snakeCase(id.replace(/_/g, " dataset name delimiter ")).replace(/_/g, " ")).replace("dataset name delimiter", "-").replace(/v(\d+)$/, ", v$1");
     const type = urlParts[2];
-    const iri_dataset = BASE_URL + "/" + name;
-    const iri_resource = BASE_URL + "/" + name + "/" + type;
+    const iri_dataset = BASE_URL + "/" + id;
+    const iri_resource = BASE_URL + "/" + id + "/" + type;
 
     let dataset: DatovaSada | undefined = endpointDatasets.find(item => item.iri === iri_dataset);
 
