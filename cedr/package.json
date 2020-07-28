@@ -16,6 +16,6 @@
   "dependencies": {
     "axios": "^0.19.2",
     "change-case": "^4.1.1",
-    "otevrene-formalni-normy-dts": "^0.1.6"
+    "otevrene-formalni-normy-dts": "^0.1.9"
   }
 }

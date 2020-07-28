@@ -1,22 +1,20 @@
 {
-  "name": "opendata-connectors-monitor",
+  "name": "opendata-connectors-ckan",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/main.js",
+  "main": "index.js",
   "scripts": {
     "start": "node dist/main.js",
     "build": "tsc"
   },
   "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@types/luxon": "^1.24.3",
-    "@types/node": "^14.0.24",
-    "typescript": "^3.9.7"
-  },
+  "license": "GPL-3.0-or-later",
   "dependencies": {
     "axios": "^0.19.2",
-    "luxon": "^1.24.1",
     "otevrene-formalni-normy-dts": "^0.1.9"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.26",
+    "typescript": "^3.9.7"
   }
 }
