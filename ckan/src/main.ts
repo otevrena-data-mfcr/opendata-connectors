@@ -46,6 +46,7 @@ async function fetchEntities(): Promise<Entity[]> {
     if (sd.resources) distribuce = sd.resources.map(sr => ({
       iri: BASE_URL + "/" + sd.name + "/" + sr.id,
       typ: "Distribuce",
+      název: { "cs": sr.name },
       formát: sr.format ? "http://publications.europa.eu/resource/authority/file-type/" + sr.format.toUpperCase() : "",
       soubor_ke_stažení: sr.url,
       typ_média: "http://www.iana.org/assignments/media-types/" + sr.mimetype,
@@ -66,7 +67,7 @@ async function fetchEntities(): Promise<Entity[]> {
       iri: BASE_URL + "/" + sd.name,
       typ: "Datová sada",
       název: { "cs": sd.title, },
-      popis: { "cs": sd.notes, },
+      popis: { "cs": sd.notes ? sd.notes.replace(/(<([^>]+)>)/g, "") : "" },
       poskytovatel: OVM.MF,
       téma: [Theme.Government],
       periodicita_aktualizace: Frequency.Unknown, // TODO: překlad frekvencí z katalogu, je potřeba vyexportovat do API
