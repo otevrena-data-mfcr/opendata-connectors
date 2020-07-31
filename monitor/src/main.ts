@@ -2,31 +2,23 @@ import axios from "axios";
 import { DateTime, Duration } from "luxon";
 
 import { MonitorDataset } from "./schema/monitor-dataset";
-import { Entity, Katalog, DatovaSada, OVM, RuianStat, Theme, Frequency, PodminkyUzitiDilo, PodminkyUzitiDatabazeZvlastni, PodminkyUzitiDatabazeDilo, PodminkyUzitiOsobniUdaje, Distribuce } from "otevrene-formalni-normy-dts";
+import { Entity, DatovaSada, OVM, RuianStat, Theme, Frequency, PodminkyUzitiDilo, PodminkyUzitiDatabazeZvlastni, PodminkyUzitiDatabazeDilo, PodminkyUzitiOsobniUdaje, Distribuce, DatovaSluzba } from "otevrene-formalni-normy-dts";
 import { createServer } from "./server";
+import { soapDataset, soapDistribution } from "./entities/soap";
+import { catalog } from "./entities/catalog";
 
 const BASE_URL = process.env["BASE_URL"] || "";
 const PORT = process.env["PORT"] ? Number(process.env["PORT"]) : 3000;
 const CACHE_TIMEOUT = Number(process.env["CACHE_TIMEOUT"]) || 30;
 
-var catalog: Katalog = {
-  "@context": "https://pod-test.mvcr.gov.cz/otevřené-formální-normy/rozhraní-katalogů-otevřených-dat/draft/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
-  iri: BASE_URL + "/",
-  typ: "Katalog",
-
-  název: {
-    "cs": "Monitor Státní pokladny",
-  },
-  popis: { "cs": "" },
-  poskytovatel: OVM.MF,
-  domovská_stránka: "https://monitor.statnipokladna.cz",
-  datová_sada: []
-};
-
 async function fetchEntities(): Promise<Entity[]> {
 
-  const datasets: DatovaSada[] = [];
-  const distributions: Distribuce[] = [];
+  const datasets: DatovaSada[] = [
+    soapDataset
+  ];
+  const distributions: Distribuce[] = [
+    soapDistribution
+  ];
 
   const sourceDatasets: MonitorDataset[] = await axios.get("https://monitor.statnipokladna.cz/data/dataset.json", { responseType: "json" }).then(res => res.data);
 
@@ -38,11 +30,49 @@ async function fetchEntities(): Promise<Entity[]> {
       "R/P1Y": Frequency.Annual
     };
 
-    const urlParts = sd.distribution[0].downloadURL.match(/^https:\/\/monitor.statnipokladna.cz\/data\/extrakty\/[^\/]+\/(.*)\..+$/);
-    const id = urlParts![1];
+    const urlParts = sd.distribution[0].downloadURL.match(/^https:\/\/monitor.statnipokladna.cz\/data\/extrakty\/[^\/]+\/([^\/]+)\/(.*)\..+$/);
+    if (urlParts === null) continue;
+
+    const dateParts = urlParts[2].match(/(\d{4})_(\d{2})_/);
+
+    const parentIri = BASE_URL + "/" + urlParts[1];
+    const datasetIri = parentIri + "/" + urlParts[2];
+    const distributionIri = datasetIri + "/csv";
+
+    const name = sd.title
+      .replace(/ \- (\d{2}\/)?\d{4}$/, "")
+      .replace(/^(.+?) - /, "");
+
+    const datasetName = "MONITOR: " + name + (dateParts ? ` za období ${dateParts[2]}/${dateParts[1]}` : "");
+    const parentName = "MONITOR: " + name;
+
+    let parentDataset: DatovaSada | undefined = datasets.find(item => item.iri === parentIri);
+
+    if (!parentDataset) {
+      parentDataset = {
+        "@context": "https://pod-test.mvcr.gov.cz/otevřené-formální-normy/rozhraní-katalogů-otevřených-dat/draft/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
+        iri: parentIri,
+        typ: "Datová sada",
+        název: { "cs": parentName },
+        popis: { "cs": sd.description },
+        poskytovatel: OVM.MF,
+        téma: [
+          Theme.Economics, Theme.Government
+        ],
+        periodicita_aktualizace: periodicityIndex[sd.accrualPeriodicity],
+        klíčové_slovo: {
+          "cs": ["státní pokladna", "rozpočet"],
+          "en": ["treasury", "budget"]
+        },
+        prvek_rúian: [RuianStat.CeskaRepublika],
+        časové_rozlišení: sd.accrualPeriodicity ? sd.accrualPeriodicity.replace("R/", "") : undefined
+      };
+
+      datasets.push(parentDataset);
+    }
 
     const distribuce = sd.distribution.map(dist => ({
-      iri: BASE_URL + "/" + id + "/csv",
+      iri: distributionIri,
       typ: "Distribuce",
       formát: "http://publications.europa.eu/resource/authority/file-type/CSV",
       typ_média_balíčku: "http://www.iana.org/assignments/media-types/application/zip",
@@ -63,9 +93,9 @@ async function fetchEntities(): Promise<Entity[]> {
 
     const dataset: DatovaSada = {
       "@context": "https://pod-test.mvcr.gov.cz/otevřené-formální-normy/rozhraní-katalogů-otevřených-dat/draft/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
-      iri: BASE_URL + "/" + id,
+      iri: datasetIri,
       typ: "Datová sada",
-      název: { "cs": sd.title, },
+      název: { "cs": datasetName },
       popis: { "cs": sd.description, },
       poskytovatel: OVM.MF,
       téma: [
@@ -82,20 +112,20 @@ async function fetchEntities(): Promise<Entity[]> {
 
     };
 
+    if (parentDataset) dataset.je_součástí = parentDataset.iri;
+
     const timeSpanMatch = sd.distribution[0].downloadURL.match(/(\d{4})_(\d{2})/);
 
     if (timeSpanMatch && sd.accrualPeriodicity) {
 
-      const from = DateTime.fromObject({ year: Number(timeSpanMatch[1]), month: Number(timeSpanMatch[2]), day: 1 }).minus(Duration.fromISO(sd.accrualPeriodicity.replace("R/", ""))).toISODate();
-      const to = DateTime.fromObject({ year: Number(timeSpanMatch[1]), month: Number(timeSpanMatch[2]), day: 1 }).minus({ months: 1 }).endOf("month").toISODate();
+      const to = DateTime.fromObject({ year: Number(timeSpanMatch[1]), month: Number(timeSpanMatch[2]), day: 1 }).endOf("month");
+      const from = to.plus({ days: 1 }).minus(Duration.fromISO(sd.accrualPeriodicity.replace("R/", "")));
 
-      if (from && to) {
-        dataset.časové_pokrytí = {
-          typ: "Časový interval",
-          začátek: from,
-          konec: to
-        };
-      }
+      dataset.časové_pokrytí = {
+        typ: "Časový interval",
+        začátek: from.toISODate()!, // if matched by regexp then date is not invalid and iso string not null
+        konec: to.toISODate()! // if matched by regexp then date is not invalid and iso string not null
+      };
     }
 
     datasets.push(dataset);
