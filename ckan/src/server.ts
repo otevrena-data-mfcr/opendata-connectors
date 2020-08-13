@@ -40,7 +40,7 @@ export async function createServer(entitiesCallback: () => Promise<Entity[]>, us
         await updateEntities();
       }
       catch (err) {
-        console.log(err);
+        console.log(err.message);
       }
     }
 
