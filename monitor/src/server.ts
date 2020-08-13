@@ -5,11 +5,13 @@ interface ServerOptions {
   port: number;
   cache_timeout: number;
   base_url: string;
+  log_requests: boolean;
 }
 const defaultOptions: ServerOptions = {
   port: 3000,
   cache_timeout: 30,
-  base_url: ""
+  base_url: "",
+  log_requests: false
 }
 
 export async function createServer(entitiesCallback: () => Promise<Entity[]>, userOptions: Partial<ServerOptions> = {}) {
@@ -22,7 +24,7 @@ export async function createServer(entitiesCallback: () => Promise<Entity[]>, us
 
   async function updateEntities() {
 
-    console.log("Loading entities...");
+    console.log("Loading upstream entities...");
     const entities = await entitiesCallback();
     console.log(`Found ${entities.length} entities.`);
 
@@ -33,18 +35,18 @@ export async function createServer(entitiesCallback: () => Promise<Entity[]>, us
 
   const server = http.createServer(async (req, res) => {
 
+    const iri = options.base_url + req.url;
+
+    if (options.log_requests) console.log("Request:", iri);
+
     if (!timestamp || (new Date()).getTime() - timestamp.getTime() > options.cache_timeout * 1000) {
       try {
         await updateEntities();
       }
       catch (err) {
-        console.log(err.message);
+        console.log("Error: " + err.message);
       }
     }
-
-    const iri = options.base_url + req.url;
-
-    console.log("Request:", iri);
 
     if (index[iri]) {
       res.writeHead(200, { 'Content-Type': 'application/ld+json' });
