@@ -6,6 +6,7 @@ import { Entity, DatovaSada, OVM, RuianStat, Theme, Frequency, PodminkyUzitiDilo
 import { createServer } from "./server";
 import { soapDataset, soapDistribution } from "./entities/soap";
 import { catalog } from "./entities/catalog";
+import { monitorDataset } from "./entities/monitor-dataset";
 
 const BASE_URL = process.env["BASE_URL"] || "";
 const PORT = process.env["PORT"] ? Number(process.env["PORT"]) : 3000;
@@ -14,7 +15,8 @@ const CACHE_TIMEOUT = Number(process.env["CACHE_TIMEOUT"]) || 30;
 async function fetchEntities(): Promise<Entity[]> {
 
   const datasets: DatovaSada[] = [
-    soapDataset
+    soapDataset,
+    monitorDataset
   ];
   const distributions: Distribuce[] = [
     soapDistribution
@@ -65,6 +67,7 @@ async function fetchEntities(): Promise<Entity[]> {
           "en": ["treasury", "budget"]
         },
         prvek_rúian: [RuianStat.CeskaRepublika],
+        je_součástí: monitorDataset.iri,
         časové_rozlišení: sd.accrualPeriodicity ? sd.accrualPeriodicity.replace("R/", "") : undefined
       };
 
@@ -101,18 +104,17 @@ async function fetchEntities(): Promise<Entity[]> {
       téma: [
         Theme.Economics, Theme.Government
       ],
-      periodicita_aktualizace: periodicityIndex[sd.accrualPeriodicity],
+      periodicita_aktualizace: Frequency.Never,
       klíčové_slovo: {
         "cs": ["státní pokladna", "rozpočet"],
         "en": ["treasury", "budget"]
       },
       prvek_rúian: [RuianStat.CeskaRepublika],
       časové_rozlišení: sd.accrualPeriodicity ? sd.accrualPeriodicity.replace("R/", "") : undefined,
+      je_součástí: parentDataset.iri,
       distribuce
 
     };
-
-    if (parentDataset) dataset.je_součástí = parentDataset.iri;
 
     const timeSpanMatch = sd.distribution[0].downloadURL.match(/(\d{4})_(\d{2})/);
 
