@@ -31,8 +31,6 @@ export async function createServer(entitiesCallback: () => Promise<Entity[]>, us
     timestamp = new Date();
   }
 
-  await updateEntities();
-
   const server = http.createServer(async (req, res) => {
 
     if ((new Date()).getTime() - timestamp.getTime() > options.cache_timeout * 1000) {
