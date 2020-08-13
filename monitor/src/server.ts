@@ -36,7 +36,12 @@ export async function createServer(entitiesCallback: () => Promise<Entity[]>, us
   const server = http.createServer(async (req, res) => {
 
     if ((new Date()).getTime() - timestamp.getTime() > options.cache_timeout * 1000) {
-      await updateEntities();
+      try {
+        await updateEntities();
+      }
+      catch (err) {
+        console.log(err);
+      }
     }
 
     const iri = options.base_url + req.url;
