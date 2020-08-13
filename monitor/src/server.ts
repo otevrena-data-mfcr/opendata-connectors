@@ -16,7 +16,7 @@ export async function createServer(entitiesCallback: () => Promise<Entity[]>, us
 
   const options = Object.assign({}, defaultOptions, userOptions);
 
-  var timestamp: Date = new Date();
+  var timestamp: Date;
 
   var index: { [iri: string]: Entity } = {};
 
@@ -33,7 +33,7 @@ export async function createServer(entitiesCallback: () => Promise<Entity[]>, us
 
   const server = http.createServer(async (req, res) => {
 
-    if ((new Date()).getTime() - timestamp.getTime() > options.cache_timeout * 1000) {
+    if (!timestamp || (new Date()).getTime() - timestamp.getTime() > options.cache_timeout * 1000) {
       try {
         await updateEntities();
       }
