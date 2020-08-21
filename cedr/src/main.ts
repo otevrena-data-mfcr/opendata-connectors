@@ -38,7 +38,9 @@ var fileTypeIndex: { [type: string]: { fileType: string, mediaType: string } } =
 
 async function fetchEntities(): Promise<Entity[]> {
 
-  const datasets: DatovaSada[] = [];
+  const datasets: DatovaSada[] = [
+    sparqlDataset
+  ];
 
   for (let endpoint of endpoints) {
     datasets.push(...await getDatasets(endpoint));
@@ -60,9 +62,7 @@ async function getDatasets(endpointUrl: string): Promise<DatovaSada[]> {
   const endpoint: CedrEndpoint = await axios.get(endpointUrl, { responseType: "json" })
     .then(res => res.data[0]);
 
-  const datasets: DatovaSada[] = [
-    sparqlDataset
-  ];
+  const datasets: DatovaSada[] = [];
 
   /* Main datasets */
 
