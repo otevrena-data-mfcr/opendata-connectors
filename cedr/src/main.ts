@@ -83,7 +83,7 @@ async function getDatasets(endpointMeta: { name: string, url: string }): Promise
 
   /* Main datasets */
 
-  if (!endpoint["http://rdfs.org/ns/void#dataDump"]) return [];
+  if (!endpoint["http://rdfs.org/ns/void#dataDump"]) return datasets;
 
   endpoint["http://rdfs.org/ns/void#dataDump"].forEach(sd => {
 
