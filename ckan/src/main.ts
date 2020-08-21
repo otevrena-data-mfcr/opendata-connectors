@@ -28,6 +28,14 @@ const catalog: Katalog = {
   datová_sada: []
 };
 
+const type2mime: { [type: string]: string } = {
+  "csv": "text/csv",
+  "json": "application/json",
+  "xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "xls": "application/vnd.ms-excel",
+  "zip": "application/zip"
+}
+
 async function fetchEntities(): Promise<Entity[]> {
 
   const datasets: DatovaSada[] = [];
@@ -42,23 +50,29 @@ async function fetchEntities(): Promise<Entity[]> {
     const sd = await axios.get<CKANPackageShow>(`${ENDPOINT}/package_show?id=${id}`, { responseType: "json", httpsAgent }).then(res => res.data.result);
 
     let distribuce: DistribuceSoubor[] = [];
+    if (sd.resources) distribuce = sd.resources.map(sr => {
 
-    if (sd.resources) distribuce = sd.resources.map(sr => ({
-      iri: BASE_URL + "/" + sd.name + "/" + sr.id,
-      typ: "Distribuce",
-      název: { "cs": sr.name },
-      formát: sr.format ? "http://publications.europa.eu/resource/authority/file-type/" + sr.format.toUpperCase() : "",
-      soubor_ke_stažení: sr.url,
-      typ_média: "http://www.iana.org/assignments/media-types/" + sr.mimetype,
-      podmínky_užití: {
-        typ: "Specifikace podmínek užití",
-        autorské_dílo: PodminkyUzitiDilo.NeobsahujeAutorskaDila,
-        databáze_chráněná_zvláštními_právy: PodminkyUzitiDatabazeZvlastni.NeniChranenaZvlastnimPravem,
-        databáze_jako_autorské_dílo: PodminkyUzitiDatabazeDilo.NeniChranenouDatabazi,
-        osobní_údaje: PodminkyUzitiOsobniUdaje.NeobsahujeOsobniUdaje
-      },
-      přístupové_url: sr.url
-    }));
+      let typ_média: string = "";
+      if (sr.mimetype) typ_média = "http://www.iana.org/assignments/media-types/" + sr.mimetype;
+      if (type2mime[sr.format.toLowerCase()]) typ_média = "http://www.iana.org/assignments/media-types/" + type2mime[sr.format.toLowerCase()];
+
+      return {
+        iri: BASE_URL + "/" + sd.name + "/" + sr.id,
+        typ: "Distribuce",
+        název: { "cs": sr.name },
+        formát: sr.format ? "http://publications.europa.eu/resource/authority/file-type/" + sr.format.toUpperCase() : "",
+        soubor_ke_stažení: sr.url,
+        typ_média,
+        podmínky_užití: {
+          typ: "Specifikace podmínek užití",
+          autorské_dílo: PodminkyUzitiDilo.NeobsahujeAutorskaDila,
+          databáze_chráněná_zvláštními_právy: PodminkyUzitiDatabazeZvlastni.NeniChranenaZvlastnimPravem,
+          databáze_jako_autorské_dílo: PodminkyUzitiDatabazeDilo.NeniChranenouDatabazi,
+          osobní_údaje: PodminkyUzitiOsobniUdaje.NeobsahujeOsobniUdaje
+        },
+        přístupové_url: sr.url
+      };
+    });
 
     distributions.push(...distribuce);
 
