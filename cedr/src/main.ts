@@ -14,15 +14,15 @@ const PORT = process.env["PORT"] ? Number(process.env["PORT"]) : 3000;
 const CACHE_TIMEOUT = Number(process.env["CACHE_TIMEOUT"]) || 30;
 
 const endpoints = [
-  "https://cedropendata.mfcr.cz/c3lod/cedr/sparql?query=DESCRIBE%20%3Chttp%3A%2F%2Fcedropendata.mfcr.cz%2Fc3lod%2Fcedr%23cedrDataSet%3E&describe-mode=CBD&format=application%2Fld%2Bjson",
-  "https://cedropendata.mfcr.cz/c3lod/mmr/sparql?query=DESCRIBE%20%3Chttp%3A%2F%2Fcedropendata.mfcr.cz%2Fc3lod%2Fmmr%23mmrDataSet%3E&describe-mode=CBD&format=application%2Fld%2Bjson",
-  "https://cedropendata.mfcr.cz/c3lod/csu/sparql?query=DESCRIBE%20%3Chttp%3A%2F%2Fcedropendata.mfcr.cz%2Fc3lod%2Fcsu%23csuDataSet%3E&describe-mode=CBD&format=application%2Fld%2Bjson",
-  "https://cedropendata.mfcr.cz/c3lod/szcr/sparql?query=DESCRIBE%20%3Chttp%3A%2F%2Fcedropendata.mfcr.cz%2Fc3lod%2Fszcr%23szcrDataSet%3E&describe-mode=CBD&format=application%2Fld%2Bjson",
-  "https://cedropendata.mfcr.cz/c3lod/ruian/sparql?query=DESCRIBE%20%3Chttp%3A%2F%2Fcedropendata.mfcr.cz%2Fc3lod%2Fruian%23ruianDataSet%3E&describe-mode=CBD&format=application%2Fld%2Bjson",
-  "https://cedropendata.mfcr.cz/c3lod/edssmvs/sparql?query=DESCRIBE%20%3Chttp%3A%2F%2Fcedropendata.mfcr.cz%2Fc3lod%2Fedssmvs%23edssmvsDataSet%3E&describe-mode=CBD&format=application%2Fld%2Bjson",
-  "https://cedropendata.mfcr.cz/c3lod/ares/sparql?query=DESCRIBE%20%3Chttp%3A%2F%2Fcedropendata.mfcr.cz%2Fc3lod%2Fares%23aresDataSet%3E&describe-mode=CBD&format=application%2Fld%2Bjson",
-  "https://cedropendata.mfcr.cz/c3lod/rob/sparql?query=DESCRIBE%20%3Chttp%3A%2F%2Fcedropendata.mfcr.cz%2Fc3lod%2Frob%23robDataSet%3E&describe-mode=CBD&format=application%2Fld%2Bjson",
-  "https://cedropendata.mfcr.cz/c3lod/isdp/sparql?query=DESCRIBE%20%3Chttp%3A%2F%2Fcedropendata.mfcr.cz%2Fc3lod%2Fisdp%23isdpDataSet%3E&describe-mode=CBD&format=application%2Fld%2Bjson"
+  { name: "cedr", url: "https://cedropendata.mfcr.cz/c3lod/cedr/sparql?query=DESCRIBE%20%3Chttp%3A%2F%2Fcedropendata.mfcr.cz%2Fc3lod%2Fcedr%23cedrDataSet%3E&describe-mode=CBD&format=application%2Fld%2Bjson" },
+  { name: "mmr", url: "https://cedropendata.mfcr.cz/c3lod/mmr/sparql?query=DESCRIBE%20%3Chttp%3A%2F%2Fcedropendata.mfcr.cz%2Fc3lod%2Fmmr%23mmrDataSet%3E&describe-mode=CBD&format=application%2Fld%2Bjson" },
+  { name: "csu", url: "https://cedropendata.mfcr.cz/c3lod/csu/sparql?query=DESCRIBE%20%3Chttp%3A%2F%2Fcedropendata.mfcr.cz%2Fc3lod%2Fcsu%23csuDataSet%3E&describe-mode=CBD&format=application%2Fld%2Bjson" },
+  { name: "szcr", url: "https://cedropendata.mfcr.cz/c3lod/szcr/sparql?query=DESCRIBE%20%3Chttp%3A%2F%2Fcedropendata.mfcr.cz%2Fc3lod%2Fszcr%23szcrDataSet%3E&describe-mode=CBD&format=application%2Fld%2Bjson" },
+  { name: "ruian", url: "https://cedropendata.mfcr.cz/c3lod/ruian/sparql?query=DESCRIBE%20%3Chttp%3A%2F%2Fcedropendata.mfcr.cz%2Fc3lod%2Fruian%23ruianDataSet%3E&describe-mode=CBD&format=application%2Fld%2Bjson" },
+  { name: "edssmvs", url: "https://cedropendata.mfcr.cz/c3lod/edssmvs/sparql?query=DESCRIBE%20%3Chttp%3A%2F%2Fcedropendata.mfcr.cz%2Fc3lod%2Fedssmvs%23edssmvsDataSet%3E&describe-mode=CBD&format=application%2Fld%2Bjson" },
+  { name: "ares", url: "https://cedropendata.mfcr.cz/c3lod/ares/sparql?query=DESCRIBE%20%3Chttp%3A%2F%2Fcedropendata.mfcr.cz%2Fc3lod%2Fares%23aresDataSet%3E&describe-mode=CBD&format=application%2Fld%2Bjson" },
+  { name: "rob", url: "https://cedropendata.mfcr.cz/c3lod/rob/sparql?query=DESCRIBE%20%3Chttp%3A%2F%2Fcedropendata.mfcr.cz%2Fc3lod%2Frob%23robDataSet%3E&describe-mode=CBD&format=application%2Fld%2Bjson" },
+  { name: "isdp", url: "https://cedropendata.mfcr.cz/c3lod/isdp/sparql?query=DESCRIBE%20%3Chttp%3A%2F%2Fcedropendata.mfcr.cz%2Fc3lod%2Fisdp%23isdpDataSet%3E&describe-mode=CBD&format=application%2Fld%2Bjson" }
 ];
 
 var fileTypeIndex: { [type: string]: { fileType: string, mediaType: string } } = {
@@ -57,12 +57,29 @@ async function fetchEntities(): Promise<Entity[]> {
   ];
 
 }
-async function getDatasets(endpointUrl: string): Promise<DatovaSada[]> {
+async function getDatasets(endpointMeta: { name: string, url: string }): Promise<DatovaSada[]> {
 
-  const endpoint: CedrEndpoint = await axios.get(endpointUrl, { responseType: "json" })
+  const endpoint: CedrEndpoint = await axios.get(endpointMeta.url, { responseType: "json" })
     .then(res => res.data[0]);
 
-  const datasets: DatovaSada[] = [];
+  const endpointDataset: DatovaSada = {
+    "@context": "https://pod-test.mvcr.gov.cz/otevřené-formální-normy/rozhraní-katalogů-otevřených-dat/draft/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
+    iri: BASE_URL + "/" + endpointMeta.name,
+    typ: "Datová sada",
+    distribuce: [],
+    klíčové_slovo: { "cs": ["dotace"] },
+    název: endpoint["http://purl.org/dc/terms/title"].reduce((acc, cur) => (acc[cur["@language"]] = cur["@value"], acc), {} as { [lang: string]: string }),
+    periodicita_aktualizace: Frequency.Unknown,
+    popis: endpoint["http://purl.org/dc/terms/description"].reduce((acc, cur) => (acc[cur["@language"]] = cur["@value"], acc), {} as { [lang: string]: string }),
+    poskytovatel: OVM.GFŘ,
+    prvek_rúian: [RuianStat.CeskaRepublika],
+    téma: [Theme.Government, Theme.Economics],
+    dokumentace: "https://cedropendata.mfcr.cz/c3lod/C3_OpenData - datová sada IS CEDR III.pdf"
+  }
+
+  const datasets: DatovaSada[] = [
+    endpointDataset
+  ];
 
   /* Main datasets */
 
