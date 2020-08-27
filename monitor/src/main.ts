@@ -41,12 +41,11 @@ async function fetchEntities(): Promise<Entity[]> {
     const datasetIri = parentIri + "/" + urlParts[2];
     const distributionIri = datasetIri + "/csv";
 
-    const name = sd.title
+    const parentName = sd.title
       .replace(/ \- (\d{2}\/)?\d{4}$/, "")
       .replace(/^(.+?) - /, "");
 
-    const datasetName = "MONITOR: " + name + (dateParts ? ` za období ${dateParts[2]}/${dateParts[1]}` : "");
-    const parentName = "MONITOR: " + name;
+    const datasetName = parentName + (dateParts ? ` za období ${dateParts[2]}/${dateParts[1]}` : "");
 
     let parentDataset: DatovaSada | undefined = datasets.find(item => item.iri === parentIri);
 
