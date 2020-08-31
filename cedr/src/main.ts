@@ -40,7 +40,8 @@ var fileTypeIndex: { [type: string]: { fileType: string, mediaType: string } } =
 async function fetchEntities(): Promise<Entity[]> {
 
   const datasets: DatovaSada[] = [
-    sparqlDataset
+    sparqlDataset,
+    cedrDataset
   ];
 
   for (let endpoint of endpoints) {
@@ -56,7 +57,6 @@ async function fetchEntities(): Promise<Entity[]> {
 
   return [
     catalog,
-    cedrDataset,
     ...datasets,
     ...distributions,
   ];
@@ -69,7 +69,7 @@ async function getDatasets(endpointMeta: { name: string, url: string }): Promise
 
   const endpointDataset: DatovaSada = {
     "@context": "https://pod-test.mvcr.gov.cz/otevřené-formální-normy/rozhraní-katalogů-otevřených-dat/draft/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
-    iri: BASE_URL + "/" + endpointMeta.name,
+    iri: BASE_URL + "/dataset-" + endpointMeta.name,
     typ: "Datová sada",
     distribuce: [],
     klíčové_slovo: { "cs": ["dotace"] },
@@ -117,7 +117,8 @@ async function getDatasets(endpointMeta: { name: string, url: string }): Promise
         poskytovatel: OVM.GFŘ,
         prvek_rúian: [RuianStat.CeskaRepublika],
         téma: [Theme.Government, Theme.Economics],
-        dokumentace: "https://cedropendata.mfcr.cz/c3lod/C3_OpenData%20-%20datová%20sada%20IS%20CEDR%20III.pdf"
+        dokumentace: "https://cedropendata.mfcr.cz/c3lod/C3_OpenData%20-%20datová%20sada%20IS%20CEDR%20III.pdf",
+        je_součástí: endpointDataset.iri
       };
       datasets.push(dataset);
     }
