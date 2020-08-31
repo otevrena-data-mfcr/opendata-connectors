@@ -42,7 +42,7 @@ export const sparqlDataset: DatovaSada = {
   popis: { "cs": "CEDR III, Centrální evidence dotací z rozpočtu nebo také Centrální registr dotací, je databáze obsahující údaje o dotacích,návratných finančních výpomocích a dalších podobných transferech poskytovaných ze státního rozpočtu, státních fondů, státníchfinančních aktiv a Národního fondu (včetně evropských dotací) a jejich příjemcích. \n Data jsou publikována v nejvyšším stupni 5. dle specifikace [2] otevřenosti datových sad jako propojená data." },
   poskytovatel: OVM.GFŘ,
   prvek_rúian: [RuianStat.CeskaRepublika],
-  dokumentace: "https://cedropendata.mfcr.cz/c3lod/C3_OpenData - datová sada IS CEDR III.pdf",
+  dokumentace: "https://cedropendata.mfcr.cz/c3lod/C3_OpenData%20-%20datová%20sada%20IS%20CEDR%20III.pdf",
   téma: [Theme.Government]
 };
 

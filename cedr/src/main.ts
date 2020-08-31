@@ -6,8 +6,9 @@ import { createServer } from "./server";
 import { Entity, DatovaSada, Frequency, RuianStat, Theme, PodminkyUzitiDilo, PodminkyUzitiDatabazeZvlastni, PodminkyUzitiDatabazeDilo, PodminkyUzitiOsobniUdaje, Katalog, OVM, Distribuce } from "otevrene-formalni-normy-dts";
 import { CedrEndpoint } from "./schema/cedr-endpoint";
 
-import { sparqlDataset, sparqlDistribution } from "./entities/sparql";
+import { sparqlDataset } from "./entities/sparql";
 import { catalog } from "./entities/catalog";
+import { cedrDataset } from "./entities/cedr";
 
 const BASE_URL = process.env["BASE_URL"] || "";
 const PORT = process.env["PORT"] ? Number(process.env["PORT"]) : 3000;
@@ -48,10 +49,14 @@ async function fetchEntities(): Promise<Entity[]> {
 
   catalog.datová_sada = datasets.map(ds => ds.iri);
 
-  const distributions = datasets.map(ds => ds.distribuce).reduce((acc, cur) => ([...acc, ...cur]));
+  const distributions: Distribuce[] = [];
+  datasets.forEach(ds => {
+    if (ds.distribuce) distributions.push(...ds.distribuce);
+  });
 
   return [
     catalog,
+    cedrDataset,
     ...datasets,
     ...distributions,
   ];
@@ -74,7 +79,8 @@ async function getDatasets(endpointMeta: { name: string, url: string }): Promise
     poskytovatel: OVM.GFŘ,
     prvek_rúian: [RuianStat.CeskaRepublika],
     téma: [Theme.Government, Theme.Economics],
-    dokumentace: "https://cedropendata.mfcr.cz/c3lod/C3_OpenData - datová sada IS CEDR III.pdf"
+    dokumentace: "https://cedropendata.mfcr.cz/c3lod/C3_OpenData%20-%20datová%20sada%20IS%20CEDR%20III.pdf",
+    je_součástí: cedrDataset.iri
   }
 
   const datasets: DatovaSada[] = [
@@ -111,7 +117,7 @@ async function getDatasets(endpointMeta: { name: string, url: string }): Promise
         poskytovatel: OVM.GFŘ,
         prvek_rúian: [RuianStat.CeskaRepublika],
         téma: [Theme.Government, Theme.Economics],
-        dokumentace: "https://cedropendata.mfcr.cz/c3lod/C3_OpenData - datová sada IS CEDR III.pdf"
+        dokumentace: "https://cedropendata.mfcr.cz/c3lod/C3_OpenData%20-%20datová%20sada%20IS%20CEDR%20III.pdf"
       };
       datasets.push(dataset);
     }
@@ -133,7 +139,7 @@ async function getDatasets(endpointMeta: { name: string, url: string }): Promise
       soubor_ke_stažení: sd["@id"],
     }
 
-    dataset.distribuce.push(distribuce);
+    dataset.distribuce!.push(distribuce);
 
   });
 
