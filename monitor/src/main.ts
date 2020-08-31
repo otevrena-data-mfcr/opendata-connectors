@@ -98,7 +98,7 @@ async function fetchEntities(): Promise<Entity[]> {
       iri: datasetIri,
       typ: "Datová sada",
       název: { "cs": datasetName },
-      popis: { "cs": sd.description, },
+      popis: { "cs": "" },
       poskytovatel: OVM.MF,
       téma: [
         Theme.Economics, Theme.Government
