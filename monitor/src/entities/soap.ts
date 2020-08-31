@@ -1,6 +1,7 @@
 //https://monitor.statnipokladna.cz/api/monitorws
 
 import { DatovaSada, DistribuceSluzba, PodminkyUzitiDilo, PodminkyUzitiDatabazeZvlastni, PodminkyUzitiDatabazeDilo, PodminkyUzitiOsobniUdaje, Frequency, OVM, RuianStat, Theme } from "otevrene-formalni-normy-dts";
+import { monitorDataset } from "./monitor-dataset";
 
 const BASE_URL = process.env["BASE_URL"] || "";
 
@@ -37,5 +38,6 @@ export const soapDataset: DatovaSada = {
   téma: [Theme.Government, Theme.Economics],
   distribuce: [
     soapDistribution
-  ]
+  ],
+  je_součástí: monitorDataset.iri
 }

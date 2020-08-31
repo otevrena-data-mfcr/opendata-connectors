@@ -15,8 +15,8 @@ const CACHE_TIMEOUT = Number(process.env["CACHE_TIMEOUT"]) || 30;
 async function fetchEntities(): Promise<Entity[]> {
 
   const datasets: DatovaSada[] = [
+    monitorDataset,
     soapDataset,
-    monitorDataset
   ];
   const distributions: Distribuce[] = [
     soapDistribution
