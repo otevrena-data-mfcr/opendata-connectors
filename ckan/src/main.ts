@@ -4,6 +4,7 @@ import https from "https";
 import { Entity, Katalog, DatovaSada, OVM, RuianStat, Theme, Frequency, PodminkyUzitiDilo, PodminkyUzitiDatabazeZvlastni, PodminkyUzitiDatabazeDilo, PodminkyUzitiOsobniUdaje, DistribuceSoubor, Distribuce } from "otevrene-formalni-normy-dts";
 import { CKANPackageList, CKANPackageShow } from "./schema/ckan-api";
 import { createServer } from "./server";
+import { PartialBy, PartialDistribuce, PartialDistribuceSoubor, PartialDatovaSada } from "./schema/partial-ofn";
 
 const ENDPOINT = process.env["ENDPOINT"] || "http://localhost";
 const BASE_URL = process.env["BASE_URL"] || "";
@@ -38,7 +39,7 @@ const type2mime: { [type: string]: string } = {
 
 async function fetchEntities(): Promise<Entity[]> {
 
-  const datasets: DatovaSada[] = [];
+  const datasets: PartialDatovaSada[] = [];
   const distributions: Distribuce[] = [];
 
   const datasetIds = await axios.get<CKANPackageList>(`${ENDPOINT}/package_list`, { responseType: "json", httpsAgent }).then(res => res.data.result);
@@ -49,18 +50,21 @@ async function fetchEntities(): Promise<Entity[]> {
 
     const sd = await axios.get<CKANPackageShow>(`${ENDPOINT}/package_show?id=${id}`, { responseType: "json", httpsAgent }).then(res => res.data.result);
 
-    let distribuce: DistribuceSoubor[] = [];
-    if (sd.resources) distribuce = sd.resources.map(sr => {
+    const resources = sd.resources || [];
 
-      let typ_média: string = "";
+    let distributions: PartialDistribuce[] = [];
+
+    for (let sr of resources) {
+
+      let typ_média: string | undefined = undefined;
       if (sr.mimetype) typ_média = "http://www.iana.org/assignments/media-types/" + sr.mimetype;
       if (type2mime[sr.format.toLowerCase()]) typ_média = "http://www.iana.org/assignments/media-types/" + type2mime[sr.format.toLowerCase()];
 
-      return {
+      const distribution: PartialDistribuceSoubor = {
         iri: BASE_URL + "/" + sd.name + "/" + sr.id,
         typ: "Distribuce",
         název: { "cs": sr.name },
-        formát: sr.format ? "http://publications.europa.eu/resource/authority/file-type/" + sr.format.toUpperCase() : "",
+        formát: "http://publications.europa.eu/resource/authority/file-type/" + sr.format.toUpperCase(),
         soubor_ke_stažení: sr.url,
         typ_média,
         podmínky_užití: {
@@ -72,11 +76,11 @@ async function fetchEntities(): Promise<Entity[]> {
         },
         přístupové_url: sr.url
       };
-    });
 
-    distributions.push(...distribuce);
+      distributions.push(distribution);
+    }
 
-    const dataset: DatovaSada = {
+    const dataset: PartialDatovaSada = {
       "@context": "https://pod-test.mvcr.gov.cz/otevřené-formální-normy/rozhraní-katalogů-otevřených-dat/draft/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
       iri: BASE_URL + "/" + sd.name,
       typ: "Datová sada",
@@ -89,7 +93,7 @@ async function fetchEntities(): Promise<Entity[]> {
         "cs": sd.tags ? sd.tags.map(tag => tag.name) : []
       },
       prvek_rúian: [RuianStat.CeskaRepublika],
-      distribuce
+      distribuce: distributions
     };
 
     datasets.push(dataset);
