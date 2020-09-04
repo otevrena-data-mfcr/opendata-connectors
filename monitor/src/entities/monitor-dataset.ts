@@ -7,7 +7,7 @@ export const monitorDataset: DatovaSada = {
   iri: BASE_URL + "/MONITOR",
   typ: "Datová sada",
   název: { "cs": "MONITOR Státní pokladny" },
-  popis: { "cs": "Data zobrazovaná prostřednictvím aplikace MONITOR státní pokladny. Rozpočtové a účetní informace ze všech úrovní státní správy a samosprávy", },
+  popis: { "cs": "Data z aplikace MONITOR státní pokladny. Rozpočtové a účetní informace ze všech úrovní státní správy a samosprávy", },
   poskytovatel: OVM.MF,
   téma: [
     Theme.Economics, Theme.Government
