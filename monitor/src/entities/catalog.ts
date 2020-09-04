@@ -10,7 +10,7 @@ export const catalog: Katalog = {
   název: {
     "cs": "MONITOR Státní pokladny",
   },
-  popis: { "cs": "" },
+  popis: { "cs": "Data zobrazovaná prostřednictvím aplikace MONITOR státní pokladny. Rozpočtové a účetní informace ze všech úrovní státní správy a samosprávy" },
   poskytovatel: OVM.MF,
   domovská_stránka: "https://monitor.statnipokladna.cz",
   datová_sada: []

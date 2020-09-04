@@ -7,7 +7,7 @@ export const monitorDataset: DatovaSada = {
   iri: BASE_URL + "/MONITOR",
   typ: "Datová sada",
   název: { "cs": "MONITOR Státní pokladny" },
-  popis: { "cs": "MONITOR je specializovaný informační portál Ministerstva financí, který umožňuje veřejnosti volný přístup k rozpočtovým a účetním informacím ze všech úrovní státní správy a samosprávy. Prezentované informace pocházejí ze systému Státní pokladny (IISSP – Integrovaný informační systém státní pokladny) a Centrálního systému účetních informací (CSÚIS) a jsou čtvrtletně aktualizovány.", },
+  popis: { "cs": "Data zobrazovaná prostřednictvím aplikace MONITOR státní pokladny. Rozpočtové a účetní informace ze všech úrovní státní správy a samosprávy", },
   poskytovatel: OVM.MF,
   téma: [
     Theme.Economics, Theme.Government
