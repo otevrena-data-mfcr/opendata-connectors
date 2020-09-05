@@ -40,7 +40,7 @@ const type2mime: { [type: string]: string } = {
 async function fetchEntities(): Promise<Entity[]> {
 
   const datasets: PartialDatovaSada[] = [];
-  const distributions: Distribuce[] = [];
+  const distributions: PartialDistribuce[] = [];
 
   const datasetIds = await axios.get<CKANPackageList>(`${ENDPOINT}/package_list`, { responseType: "json", httpsAgent }).then(res => res.data.result);
 
@@ -51,8 +51,6 @@ async function fetchEntities(): Promise<Entity[]> {
     const sd = await axios.get<CKANPackageShow>(`${ENDPOINT}/package_show?id=${id}`, { responseType: "json", httpsAgent }).then(res => res.data.result);
 
     const resources = sd.resources || [];
-
-    let distributions: PartialDistribuce[] = [];
 
     for (let sr of resources) {
 
