@@ -51,12 +51,14 @@ async function fetchEntities(): Promise<Entity[]> {
     const sd = await axios.get<CKANPackageShow>(`${ENDPOINT}/package_show?id=${id}`, { responseType: "json", httpsAgent }).then(res => res.data.result);
 
     const resources = sd.resources || [];
+    const datasetDistributions: PartialDistribuceSoubor[] = [];
 
     for (let sr of resources) {
 
       let typ_média: string | undefined = undefined;
       if (sr.mimetype) typ_média = "http://www.iana.org/assignments/media-types/" + sr.mimetype;
       if (type2mime[sr.format.toLowerCase()]) typ_média = "http://www.iana.org/assignments/media-types/" + type2mime[sr.format.toLowerCase()];
+
 
       const distribution: PartialDistribuceSoubor = {
         iri: BASE_URL + "/" + sd.name + "/" + sr.id,
@@ -75,7 +77,7 @@ async function fetchEntities(): Promise<Entity[]> {
         přístupové_url: sr.url
       };
 
-      distributions.push(distribution);
+      datasetDistributions.push(distribution);
     }
 
     const dataset: PartialDatovaSada = {
@@ -91,9 +93,10 @@ async function fetchEntities(): Promise<Entity[]> {
         "cs": sd.tags ? sd.tags.map(tag => tag.name) : []
       },
       prvek_rúian: [RuianStat.CeskaRepublika],
-      distribuce: distributions
+      distribuce: datasetDistributions
     };
 
+    distributions.push(...datasetDistributions);
     datasets.push(dataset);
 
   }
