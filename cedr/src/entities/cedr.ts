@@ -13,9 +13,6 @@ export const cedrDataset: DatovaSada = {
     Theme.Economics, Theme.Government
   ],
   periodicita_aktualizace: Frequency.Monthly, //nejmensi z podrizenych
-  klíčové_slovo: {
-    "cs": ["státní pokladna", "rozpočet"],
-    "en": ["treasury", "budget"]
-  },
+  dokumentace: "https://cedropendata.mfcr.cz/c3lod/C3_OpenData%20-%20datová%20sada%20IS%20CEDR%20III.pdf",
   prvek_rúian: [RuianStat.CeskaRepublika]
 }
