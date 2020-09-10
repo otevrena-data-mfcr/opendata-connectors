@@ -110,13 +110,13 @@ async function getDatasets(endpointMeta: { name: string, url: string }): Promise
         iri: iri_dataset,
         typ: "Datová sada",
         distribuce: [],
-        klíčové_slovo: { "cs": ["dotace"] },
+        klíčové_slovo: { "cs": ["dotace"], "en": ["grants"] },
         název: { "cs": "CEDR - " + name },
         periodicita_aktualizace: Frequency.Unknown,
         popis: { "cs": "" },
         poskytovatel: OVM.GFŘ,
         prvek_rúian: [RuianStat.CeskaRepublika],
-        téma: [Theme.Government, Theme.Economics],
+        téma: [Theme.Government],
         dokumentace: "https://cedropendata.mfcr.cz/c3lod/C3_OpenData%20-%20datová%20sada%20IS%20CEDR%20III.pdf",
         je_součástí: endpointDataset.iri
       };

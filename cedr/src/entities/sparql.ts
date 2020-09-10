@@ -34,9 +34,7 @@ export const sparqlDataset: DatovaSada = {
   distribuce: [
     sparqlDistribution
   ],
-  klíčové_slovo: {
-    "cs": ["cedr", "dotace"]
-  },
+  klíčové_slovo: { "cs": ["dotace"], "en": ["grants"] },
   název: { "cs": "SPARQL REST API - Rozhraní pro dotazování na data v datové sadě IS CEDR III" },
   periodicita_aktualizace: Frequency.Irreg,
   popis: { "cs": "CEDR III, Centrální evidence dotací z rozpočtu nebo také Centrální registr dotací, je databáze obsahující údaje o dotacích,návratných finančních výpomocích a dalších podobných transferech poskytovaných ze státního rozpočtu, státních fondů, státníchfinančních aktiv a Národního fondu (včetně evropských dotací) a jejich příjemcích. \n Data jsou publikována v nejvyšším stupni 5. dle specifikace [2] otevřenosti datových sad jako propojená data." },
