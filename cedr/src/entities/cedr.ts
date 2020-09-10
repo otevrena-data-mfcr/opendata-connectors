@@ -7,7 +7,7 @@ export const cedrDataset: DatovaSada = {
   iri: BASE_URL + "/cedr",
   typ: "Datová sada",
   název: { "cs": "Centrální evidence dotací" },
-  popis: { "cs": "CEDR III, Centrální evidence dotací z rozpočtu nebo také Centrální registr dotací, je databáze obsahující údaje o dotacích,návratných finančních výpomocích a dalších podobných transferech poskytovaných ze státního rozpočtu, státních fondů, státníchfinančních aktiv a Národního fondu (včetně evropských dotací) a jejich příjemcích.", },
+  popis: { "cs": "Centrální evidence dotací ze státního rozpočtu, státních fondů, státních finančních aktiv a Národního fondu (včetně evropských dotací)", },
   poskytovatel: OVM.MF,
   téma: [Theme.Government],
   periodicita_aktualizace: Frequency.Monthly, //nejmensi z podrizenych
