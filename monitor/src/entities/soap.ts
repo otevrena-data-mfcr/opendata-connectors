@@ -18,8 +18,8 @@ export const soapDistribution: DistribuceSluzba = {
   přístupová_služba: {
     typ: "Datová služba",
     název: {
-      "cs": "Webová služba SOAP aplikace MONITOR Státní pokladny",
-      "en": "SOAP API for MONITOR Státní pokladny"
+      "cs": "Webová služba SOAP",
+      "en": "SOAP API"
     },
     přístupový_bod: "https://monitor.statnipokladna.cz/api/monitorws",
     popis_přístupového_bodu: "https://monitor.statnipokladna.cz/datovy-katalog/webova-sluzby",
