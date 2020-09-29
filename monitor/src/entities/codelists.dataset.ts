@@ -25,6 +25,5 @@ export const codelistsDataset: DatovaSada = {
     "en": ["treasury", "budget"]
   },
   prvek_rúian: [RuianStat.CeskaRepublika],
-  je_součástí: monitorDataset.iri,
-  distribuce: []
+  je_součástí: monitorDataset.iri 
 }
