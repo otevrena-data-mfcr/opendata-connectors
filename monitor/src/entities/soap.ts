@@ -17,10 +17,13 @@ export const soapDistribution: DistribuceSluzba = {
   },
   přístupová_služba: {
     typ: "Datová služba",
-    název: { "cs": "MONITOR: Webová služba SOAP" },
+    název: {
+      "cs": "Webová služba SOAP aplikace MONITOR Státní pokladny",
+      "en": "SOAP API for MONITOR Státní pokladny"
+    },
     přístupový_bod: "https://monitor.statnipokladna.cz/api/monitorws",
     popis_přístupového_bodu: "https://monitor.statnipokladna.cz/datovy-katalog/webova-sluzby",
-    
+
   },
   přístupové_url: "https://monitor.statnipokladna.cz/api/monitorws",
 
@@ -30,7 +33,10 @@ export const soapDataset: DatovaSada = {
   "@context": "https://pod-test.mvcr.gov.cz/otevřené-formální-normy/rozhraní-katalogů-otevřených-dat/draft/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
   iri: BASE_URL + "/soap",
   typ: "Datová sada",
-  název: { "cs": "MONITOR: Webová služba SOAP" },
+  název: {
+    "cs": "Webová služba SOAP aplikace MONITOR Státní pokladny",
+    "en": "SOAP API for MONITOR Státní pokladny"
+  },
   klíčové_slovo: { "cs": ["státní pokladna", "rozpočet"] },
   periodicita_aktualizace: Frequency.Monthly,
   popis: { "cs": "" },
