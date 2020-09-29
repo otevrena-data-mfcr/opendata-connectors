@@ -50,7 +50,7 @@ export async function createServer(entitiesCallback: () => Promise<Entity[]>, us
 
     if (index[iri]) {
       res.writeHead(200, { 'Content-Type': 'application/ld+json' });
-      res.write(JSON.stringify(index[iri]));
+      res.write(JSON.stringify(index[iri], undefined, 2));
     }
     else {
       res.writeHead(404, { 'Content-Type': 'text/plain' });

@@ -1,9 +1,10 @@
 import axios from "axios";
 import https from "https";
 
+import { createServer } from "opendata-connectors-common"; 
+
 import { Entity, Katalog, DatovaSada, OVM, RuianStat, Theme, Frequency, PodminkyUzitiDilo, PodminkyUzitiDatabazeZvlastni, PodminkyUzitiDatabazeDilo, PodminkyUzitiOsobniUdaje, DistribuceSoubor, Distribuce } from "otevrene-formalni-normy-dts";
 import { CKANPackageList, CKANPackageShow } from "./schema/ckan-api";
-import { createServer } from "./server";
 import { PartialBy, PartialDistribuce, PartialDistribuceSoubor, PartialDatovaSada } from "./schema/partial-ofn";
 
 const ENDPOINT = process.env["ENDPOINT"] || "http://localhost";

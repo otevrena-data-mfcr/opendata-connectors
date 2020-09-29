@@ -1,12 +1,16 @@
 FROM node:alpine
 
-COPY package.json package-lock.json ./
+# BUILD
+WORKDIR /srv
 
-RUN npm ci
+COPY . .
 
-COPY . . 
+RUN cd common && npm ci && npm run build
 
-RUN npm run build
+RUN cd cedr && npm ci && npm run build
+
+# RUN
+WORKDIR /srv/cedr
 
 EXPOSE 3000
 

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { snakeCase, sentenceCase } from "change-case";
 
-import { createServer } from "./server";
+import { createServer } from "opendata-connectors-common";
 
 import { Entity, DatovaSada, Frequency, RuianStat, Theme, PodminkyUzitiDilo, PodminkyUzitiDatabazeZvlastni, PodminkyUzitiDatabazeDilo, PodminkyUzitiOsobniUdaje, Katalog, OVM, Distribuce } from "otevrene-formalni-normy-dts";
 import { CedrEndpoint } from "./schema/cedr-endpoint";

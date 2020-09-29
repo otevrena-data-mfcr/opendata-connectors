@@ -1,12 +1,16 @@
 FROM node:alpine
 
-COPY package.json package-lock.json ./
+# BUILD
+WORKDIR /srv
 
-RUN npm ci
+COPY . .
 
-COPY . . 
+RUN cd common && npm ci && npm run build
 
-RUN npm run build
+RUN cd monitor && npm ci && npm run build
+
+# RUN
+WORKDIR /srv/monitor
 
 EXPOSE 3000
 
