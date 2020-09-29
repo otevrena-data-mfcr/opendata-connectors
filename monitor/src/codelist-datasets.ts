@@ -17,23 +17,7 @@ export async function getCodelistDatasets() {
   for (let sd of sourceDatasets) {
 
     const xmlDistribution: DistribuceSoubor = {
-      "iri": `${BASE_URL}/ciselnik-${sd.id}-xsd`,
-      "typ": "Distribuce",
-      "podmínky_užití": {
-        typ: "Specifikace podmínek užití",
-        autorské_dílo: PodminkyUzitiDilo.NeobsahujeAutorskaDila,
-        databáze_chráněná_zvláštními_právy: PodminkyUzitiDatabazeZvlastni.NeniChranenaZvlastnimPravem,
-        databáze_jako_autorské_dílo: PodminkyUzitiDatabazeDilo.NeniChranenouDatabazi,
-        osobní_údaje: PodminkyUzitiOsobniUdaje.NeobsahujeOsobniUdaje
-      },
-      "přístupové_url": sd.xsd,
-      "soubor_ke_stažení": sd.xsd,
-      "formát": "http://publications.europa.eu/resource/authority/file-type/SCHEMA_XML",
-      "typ_média": "http://www.iana.org/assignments/media-types/application/xml",
-    };
-
-    const xsdDistribution: DistribuceSoubor = {
-      "iri": `${BASE_URL}/ciselnik-${sd.id}-xml`,
+      "iri": `${BASE_URL}/ciselnik-${sd.id}/xml`,
       "typ": "Distribuce",
       "podmínky_užití": {
         typ: "Specifikace podmínek užití",
@@ -44,9 +28,9 @@ export async function getCodelistDatasets() {
       },
       "přístupové_url": sd.xml,
       "soubor_ke_stažení": sd.xml,
+      "schéma": sd.xsd,
       "formát": "http://publications.europa.eu/resource/authority/file-type/XML",
       "typ_média": "http://www.iana.org/assignments/media-types/application/xml",
-
     };
 
     const dataset: DatovaSada = {
@@ -74,7 +58,6 @@ export async function getCodelistDatasets() {
       "je_součástí": codelistsDataset.iri,
       "distribuce": [
         xmlDistribution,
-        xsdDistribution,
         soapDistribution
       ]
     };
