@@ -98,10 +98,8 @@ export async function getTransactionDatasets() {
         "en": ["treasury", "budget"]
       },
       prvek_rúian: [RuianStat.CeskaRepublika],
-      časové_rozlišení: sd.accrualPeriodicity ? sd.accrualPeriodicity.replace("R/", "") : undefined,
       je_součástí: parentDataset.iri,
       distribuce
-
     };
 
     const timeSpanMatch = sd.distribution[0].downloadURL.match(/(\d{4})_(\d{2})/);
