@@ -26,9 +26,9 @@ export async function getCodelistDatasets() {
         databáze_jako_autorské_dílo: PodminkyUzitiDatabazeDilo.NeniChranenouDatabazi,
         osobní_údaje: PodminkyUzitiOsobniUdaje.NeobsahujeOsobniUdaje
       },
-      "přístupové_url": sd.xml,
-      "soubor_ke_stažení": sd.xml,
-      "schéma": sd.xsd,
+      "přístupové_url": "https://monitor.statnipokladna.cz/data/xml/" + sd.xml,
+      "soubor_ke_stažení": "https://monitor.statnipokladna.cz/data/xml/" + sd.xml,
+      "schéma": "https://monitor.statnipokladna.cz/data/xsd/ciselniky/" + sd.xsd,
       "formát": "http://publications.europa.eu/resource/authority/file-type/XML",
       "typ_média": "http://www.iana.org/assignments/media-types/application/xml",
     };
