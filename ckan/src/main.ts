@@ -1,7 +1,7 @@
 import axios from "axios";
 import https from "https";
 
-import { createServer } from "opendata-connectors-common"; 
+import { createServer } from "opendata-connectors-common";
 
 import { Entity, Katalog, DatovaSada, OVM, RuianStat, Theme, Frequency, PodminkyUzitiDilo, PodminkyUzitiDatabazeZvlastni, PodminkyUzitiDatabazeDilo, PodminkyUzitiOsobniUdaje, DistribuceSoubor, Distribuce } from "otevrene-formalni-normy-dts";
 import { CKANPackageList, CKANPackageShow } from "./schema/ckan-api";
@@ -43,13 +43,13 @@ async function fetchEntities(): Promise<Entity[]> {
   const datasets: PartialDatovaSada[] = [];
   const distributions: PartialDistribuce[] = [];
 
-  const datasetIds = await axios.get<CKANPackageList>(`${ENDPOINT}/package_list`, { responseType: "json", httpsAgent }).then(res => res.data.result);
+  const datasetIds = await axios.get<CKANPackageList>(`${ENDPOINT}/package_list`, { responseType: "json", httpsAgent, timeout: 10000 }).then(res => res.data.result);
 
   for (let id of datasetIds) {
 
     process.stdout.write(".");
 
-    const sd = await axios.get<CKANPackageShow>(`${ENDPOINT}/package_show?id=${id}`, { responseType: "json", httpsAgent }).then(res => res.data.result);
+    const sd = await axios.get<CKANPackageShow>(`${ENDPOINT}/package_show?id=${id}`, { responseType: "json", httpsAgent, timeout: 10000 }).then(res => res.data.result);
 
     const resources = sd.resources || [];
     const datasetDistributions: PartialDistribuceSoubor[] = [];
