@@ -113,7 +113,7 @@ async function getDatasets(endpointMeta: { name: string, url: string }): Promise
         klíčové_slovo: { "cs": ["dotace"], "en": ["grants"] },
         název: { "cs": "CEDR - " + name },
         periodicita_aktualizace: Frequency.Unknown,
-        popis: { "cs": "" },
+        popis: endpointDataset.popis,
         poskytovatel: OVM.GFŘ,
         prvek_rúian: [RuianStat.CeskaRepublika],
         téma: [Theme.Government],
