@@ -39,7 +39,10 @@ export const soapDataset: DatovaSada = {
   },
   klíčové_slovo: { "cs": ["státní pokladna", "rozpočet"] },
   periodicita_aktualizace: Frequency.Monthly,
-  popis: { "cs": "" },
+  popis: {
+    "cs": "Webová služba SOAP aplikace MONITOR Státní pokladny",
+    "en": "SOAP API for MONITOR Státní pokladny"
+  },
   poskytovatel: OVM.MF,
   prvek_rúian: [RuianStat.CeskaRepublika],
   téma: [Theme.Government, Theme.Economics],
