@@ -60,6 +60,7 @@ async function fetchEntities(): Promise<Entity[]> {
       if (sr.mimetype) typ_média = "http://www.iana.org/assignments/media-types/" + sr.mimetype;
       if (type2mime[sr.format.toLowerCase()]) typ_média = "http://www.iana.org/assignments/media-types/" + type2mime[sr.format.toLowerCase()];
 
+      const url = encodeURI(decodeURIComponent(sr.url)); // fix badly encoded URIs
 
       const distribution: PartialDistribuceSoubor = {
         iri: BASE_URL + "/" + sd.name + "/" + sr.id,
