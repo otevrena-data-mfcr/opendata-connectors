@@ -95,8 +95,10 @@ async function fetchEntities(): Promise<Entity[]> {
         "cs": sd.tags ? sd.tags.map(tag => tag.name) : []
       },
       prvek_rúian: [RuianStat.CeskaRepublika],
-      distribuce: datasetDistributions
+      distribuce: datasetDistributions,
     };
+
+    if(sd.part_of) dataset.je_součástí = BASE_URL + "/" + sd.part_of;
 
     distributions.push(...datasetDistributions);
     datasets.push(dataset);

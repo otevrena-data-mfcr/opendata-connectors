@@ -25,8 +25,9 @@ export interface CKANPackageShow {
     "metadata_created": string,
     "metadata_modified": string,
     "type": string,
+    "part_of": string,
     "resources": CKANPackageShowResource[],
-    "tags": CKANPackageShowTag[]
+    "tags": CKANPackageShowTag[],
   }
 }
 
