@@ -1,5 +1,5 @@
 import axios from "axios";
-import { DatovaSada, DistribuceSoubor, Frequency, OVM, PodminkyUzitiDatabazeDilo, PodminkyUzitiDatabazeZvlastni, PodminkyUzitiDilo, PodminkyUzitiOsobniUdaje, RuianStat, Theme } from "otevrene-formalni-normy-dts";
+import { DatovaSada, DistribuceSluzba, DistribuceSoubor, Frequency, OVM, PodminkyUzitiDatabazeDilo, PodminkyUzitiDatabazeZvlastni, PodminkyUzitiDilo, PodminkyUzitiOsobniUdaje, RuianStat, Theme } from "otevrene-formalni-normy-dts";
 import { BASE_URL } from "./const";
 import { codelistsDataset } from "./entities/codelists.dataset";
 import { soapDistribution } from "./entities/soap";
@@ -33,6 +33,9 @@ export async function getCodelistDatasets() {
       "typ_média": "http://www.iana.org/assignments/media-types/application/xml",
     };
 
+    const soapDistributionCopy: DistribuceSluzba = JSON.parse(JSON.stringify(soapDistribution));
+    soapDistributionCopy.iri = `${BASE_URL}/ciselnik-${sd.id}/sluzba`;
+
     const dataset: DatovaSada = {
       "@context": "https://pod-test.mvcr.gov.cz/otevřené-formální-normy/rozhraní-katalogů-otevřených-dat/draft/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
       "typ": "Datová sada",
@@ -58,7 +61,7 @@ export async function getCodelistDatasets() {
       "je_součástí": codelistsDataset.iri,
       "distribuce": [
         xmlDistribution,
-        soapDistribution
+        soapDistributionCopy
       ]
     };
 
