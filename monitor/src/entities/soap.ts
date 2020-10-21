@@ -1,12 +1,23 @@
 //https://monitor.statnipokladna.cz/api/monitorws
 
-import { DatovaSada, DistribuceSluzba, PodminkyUzitiDilo, PodminkyUzitiDatabazeZvlastni, PodminkyUzitiDatabazeDilo, PodminkyUzitiOsobniUdaje, Frequency, OVM, RuianStat, Theme } from "otevrene-formalni-normy-dts";
+import { DatovaSada, DistribuceSluzba, PodminkyUzitiDilo, PodminkyUzitiDatabazeZvlastni, PodminkyUzitiDatabazeDilo, PodminkyUzitiOsobniUdaje, Frequency, OVM, RuianStat, Theme, DatovaSluzba } from "otevrene-formalni-normy-dts";
 import { monitorDataset } from "./monitor-dataset";
 
 const BASE_URL = process.env["BASE_URL"] || "";
 
-export const soapDistribution: DistribuceSluzba = {
+export const SoapService: DatovaSluzba = {
   iri: BASE_URL + "/soap/sluzba",
+  typ: "Datová služba",
+  název: {
+    "cs": "Webová služba SOAP",
+    "en": "SOAP API"
+  },
+  přístupový_bod: "https://monitor.statnipokladna.cz/api/monitorws",
+  popis_přístupového_bodu: "https://monitor.statnipokladna.cz/datovy-katalog/webova-sluzby",
+}
+
+export const soapDistribution: DistribuceSluzba = {
+  iri: BASE_URL + "/soap/sluzba-distribuce",
   typ: "Distribuce",
   podmínky_užití: {
     typ: "Specifikace podmínek užití",
@@ -15,16 +26,7 @@ export const soapDistribution: DistribuceSluzba = {
     databáze_jako_autorské_dílo: PodminkyUzitiDatabazeDilo.CCBY40,
     osobní_údaje: PodminkyUzitiOsobniUdaje.ObsahujeOsobniUdaje
   },
-  přístupová_služba: {
-    typ: "Datová služba",
-    název: {
-      "cs": "Webová služba SOAP",
-      "en": "SOAP API"
-    },
-    přístupový_bod: "https://monitor.statnipokladna.cz/api/monitorws",
-    popis_přístupového_bodu: "https://monitor.statnipokladna.cz/datovy-katalog/webova-sluzby",
-
-  },
+  přístupová_služba: SoapService,
   přístupové_url: "https://monitor.statnipokladna.cz/api/monitorws",
 
 }

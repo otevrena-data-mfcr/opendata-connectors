@@ -1,6 +1,6 @@
 import axios from "axios";
 import { DateTime, Duration } from "luxon";
-import { Frequency, DatovaSada, OVM, Theme, RuianStat, PodminkyUzitiDilo, PodminkyUzitiDatabazeZvlastni, PodminkyUzitiDatabazeDilo, PodminkyUzitiOsobniUdaje, Distribuce } from "otevrene-formalni-normy-dts";
+import { Frequency, DatovaSada, OVM, Theme, RuianStat, PodminkyUzitiDilo, PodminkyUzitiDatabazeZvlastni, PodminkyUzitiDatabazeDilo, PodminkyUzitiOsobniUdaje, Distribuce, DistribuceSluzba } from "otevrene-formalni-normy-dts";
 import { BASE_URL } from "./const";
 
 import { monitorDataset } from "./entities/monitor-dataset";
@@ -29,6 +29,7 @@ export async function getTransactionDatasets() {
     const parentIri = BASE_URL + "/" + urlParts[1];
     const datasetIri = parentIri + "/" + urlParts[2];
     const distributionIri = datasetIri + "/csv";
+    const distributionSoapIri = datasetIri + "/sluzba";
 
     const parentName = sd.title
       .replace(/ \- (\d{2}\/)?\d{4}$/, "")
@@ -80,7 +81,10 @@ export async function getTransactionDatasets() {
       přístupové_url: dist.downloadURL
     }) as Distribuce);
 
-    distribuce.push(soapDistribution);
+    const soapDistributionCopy:DistribuceSluzba = JSON.parse(JSON.stringify(soapDistribution));
+    soapDistributionCopy.iri = distributionSoapIri;
+
+    distribuce.push(soapDistributionCopy);
 
     const dataset: DatovaSada = {
       "@context": "https://pod-test.mvcr.gov.cz/otevřené-formální-normy/rozhraní-katalogů-otevřených-dat/draft/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
