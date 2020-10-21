@@ -18,7 +18,7 @@
   "dependencies": {
     "axios": "^0.19.2",
     "luxon": "^1.24.1",
-    "otevrene-formalni-normy-dts": "^0.1.11",
-    "opendata-connectors-common": "../common"
+    "opendata-connectors-common": "../common",
+    "otevrene-formalni-normy-dts": "^0.1.12"
   }
 }
