@@ -1,4 +1,4 @@
-import { Entity, DatovaSada, Distribuce } from "otevrene-formalni-normy-dts";
+import { Entity, DatovaSada, Distribuce, DistribuceSluzba, DatovaSluzba } from "otevrene-formalni-normy-dts";
 
 import { createServer } from "opendata-connectors-common";
 
@@ -31,7 +31,10 @@ async function fetchEntities(): Promise<Entity[]> {
     ...datasets,
 
     // dcat:distribution records
-    ...datasets.reduce((acc, val) => acc.concat(val.distribuce || []), [] as Distribuce[])
+    ...datasets.reduce((acc, val) => acc.concat(val.distribuce || []), [] as Distribuce[]),
+
+    // dcat:accessService records
+    ...datasets.reduce((acc, val) => acc.concat(val.distribuce?.filter((item): item is (DistribuceSluzba & { přístupová_služba: { iri: string } }) => "přístupová_služba" in item && "iri" in item).map(item => item.přístupová_služba) || []), [] as Entity[])
 
   ]
 
