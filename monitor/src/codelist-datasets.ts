@@ -33,9 +33,6 @@ export async function getCodelistDatasets() {
       "typ_média": "http://www.iana.org/assignments/media-types/application/xml",
     };
 
-    const soapDistributionCopy: DistribuceSluzba = JSON.parse(JSON.stringify(soapDistribution));
-    soapDistributionCopy.iri = `${BASE_URL}/ciselnik-${sd.id}/sluzba`;
-
     const dataset: DatovaSada = {
       "@context": "https://pod-test.mvcr.gov.cz/otevřené-formální-normy/rozhraní-katalogů-otevřených-dat/draft/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
       "typ": "Datová sada",
@@ -60,8 +57,7 @@ export async function getCodelistDatasets() {
       "prvek_rúian": [RuianStat.CeskaRepublika],
       "je_součástí": codelistsDataset.iri,
       "distribuce": [
-        xmlDistribution,
-        soapDistributionCopy
+        xmlDistribution
       ]
     };
 
