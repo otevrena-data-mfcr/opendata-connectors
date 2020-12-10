@@ -1,8 +1,7 @@
 import axios from "axios";
-import { DatovaSada, DistribuceSluzba, DistribuceSoubor, Frequency, OVM, PodminkyUzitiDatabazeDilo, PodminkyUzitiDatabazeZvlastni, PodminkyUzitiDilo, PodminkyUzitiOsobniUdaje, RuianStat, Theme } from "otevrene-formalni-normy-dts";
+import { DatovaSada, DistribuceSoubor, Frequency, OVM, PodminkyUzitiDatabazeDilo, PodminkyUzitiDatabazeZvlastni, PodminkyUzitiDilo, PodminkyUzitiOsobniUdaje, RuianStat, Theme } from "otevrene-formalni-normy-dts";
 import { BASE_URL } from "./const";
 import { codelistsDataset } from "./entities/codelists.dataset";
-import { soapDistribution } from "./entities/soap";
 
 import { MonitorCodelist } from "./schema/monitor-codelist";
 
