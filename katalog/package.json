@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/main.js",
     "build": "tsc",
-    "build:docker": "docker build -f ./Dockerfile -t opendata-connectors-ckan ../"
+    "build:docker": "docker build -f ./Dockerfile -t opendata-connectors-katalog ../"
   },
   "author": "",
   "license": "GPL-3.0-or-later",

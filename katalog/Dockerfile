@@ -7,10 +7,10 @@ COPY . .
 
 RUN cd common && npm ci && npm run build
 
-RUN cd ckan && npm ci && npm run build
+RUN cd katalog && npm ci && npm run build
 
 # RUN
-WORKDIR /srv/ckan
+WORKDIR /srv/katalog
 
 EXPOSE 3000
 
