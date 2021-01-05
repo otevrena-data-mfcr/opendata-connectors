@@ -78,8 +78,9 @@ async function fetchEntities(): Promise<Entity[]> {
       klíčové_slovo: { "cs": sd.tags?.split(",").map(item => item.trim()) || [] },
       prvek_rúian: [sd.spatial],
       distribuce: datasetDistributions,
-      je_součástí: sd.isPartOf
     };
+    
+    if(sd.isPartOf) dataset.je_součástí = BASE_URL + "/" + sd.isPartOf;
 
     distributions.push(...datasetDistributions);
     datasets.push(dataset);
