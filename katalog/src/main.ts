@@ -3,12 +3,11 @@ import https from "https";
 
 import { createServer } from "opendata-connectors-common";
 
-import { Entity, OVM, RuianStat, Theme, Frequency } from "otevrene-formalni-normy-dts";
+import { Entity, OVM, RuianStat, Theme, Frequency, Distribuce, DatovaSada, DistribuceSoubor, DistribuceSluzba, DatovaSluzba } from "otevrene-formalni-normy-dts";
 import { ENDPOINT, BASE_URL, PORT, CACHE_TIMEOUT } from "./constants";
 import { type2mime, license2iri, theme2iri, frequency2iri } from "./conversions";
 import { catalog } from "./entities";
 import { KatalogPackageList, KatalogPackageShow, KatalogResourceShow } from "./schema/katalog";
-import { PartialDistribuce, PartialDistribuceSoubor, PartialDatovaSada } from "./schema/partial-ofn";
 
 
 
@@ -16,12 +15,18 @@ const httpsAgent = new https.Agent({
   rejectUnauthorized: false
 });
 
+function fixUrl(url: string): string;
+function fixUrl(url: undefined): undefined;
+function fixUrl(url: string | undefined): string | undefined {
+  return url ? encodeURI(decodeURIComponent(url)) : undefined;
+}
 
 
 async function fetchEntities(): Promise<Entity[]> {
 
-  const datasets: PartialDatovaSada[] = [];
-  const distributions: PartialDistribuce[] = [];
+  const datasets: DatovaSada[] = [];
+  const distributions: Distribuce[] = [];
+  const services: (DatovaSluzba & { iri: string })[] = [];
 
   const datasetIds = await axios.get<KatalogPackageList>(`${ENDPOINT}/package_list`, { responseType: "json", httpsAgent, timeout: 10000 }).then(res => res.data.result);
 
@@ -32,41 +37,72 @@ async function fetchEntities(): Promise<Entity[]> {
     const sd = await axios.get<KatalogPackageShow>(`${ENDPOINT}/package_show?id=${id}`, { responseType: "json", httpsAgent, timeout: 10000 }).then(res => res.data.result);
 
     const resources = sd.distribution?.map(item => item.id) || [];
-    const datasetDistributions: PartialDistribuceSoubor[] = [];
+    const datasetDistributions: Distribuce[] = [];
 
     for (let url of resources) {
 
       const sr = await axios.get<KatalogResourceShow>(`${ENDPOINT}/resource_show?id=${url}`, { responseType: "json", httpsAgent, timeout: 10000 }).then(res => res.data.result);
 
-      let typ_média: string | undefined = undefined;
+      const iri = BASE_URL + "/" + sd.name + "/" + sr.id;
+
+      let typ_média: string = "";
 
       if (sr.mimetype) typ_média = "http://www.iana.org/assignments/media-types/" + sr.mimetype;
       else if (type2mime[sr.format?.toLowerCase()]) typ_média = "http://www.iana.org/assignments/media-types/" + type2mime[sr.format.toLowerCase()];
 
-      const downloadURL = encodeURI(decodeURIComponent(sr.downloadURL)); // fix badly encoded URIs
-      const accessURL = encodeURI(decodeURIComponent(sr.accessURL)); // fix badly encoded URIs
+      if (sr.service_endpointURL || sr.service_endpointDescription) {
 
-      const distribution: PartialDistribuceSoubor = {
-        iri: BASE_URL + "/" + sd.name + "/" + sr.id,
-        typ: "Distribuce",
-        název: { "cs": sr.name },
-        formát: "http://publications.europa.eu/resource/authority/file-type/" + sr.format?.toUpperCase(),
-        soubor_ke_stažení: downloadURL,
-        typ_média,
-        podmínky_užití: {
-          typ: "Specifikace podmínek užití",
-          autorské_dílo: license2iri.license_autorske_dilo[sr.license_autorske_dilo],
-          databáze_chráněná_zvláštními_právy: license2iri.license_zvlastni_prava_databaze[sr.license_zvlastni_prava_databaze],
-          databáze_jako_autorské_dílo: license2iri.license_originalni_databaze[sr.license_originalni_databaze],
-          osobní_údaje: license2iri.license_osobni_udaje[sr.license_osobni_udaje]
-        },
-        přístupové_url: accessURL
-      };
+        const service: DatovaSluzba & { iri: string } = {
+          iri: iri + "/sluzba",
+          typ: "Datová služba",
+          název: { "cs": sr.name },
+          přístupový_bod: fixUrl(sr.service_endpointURL) || fixUrl(sr.service_endpointDescription),
+          popis_přístupového_bodu: fixUrl(sr.service_endpointDescription)
+        };
 
-      datasetDistributions.push(distribution);
+        const distribution: DistribuceSluzba = {
+          iri,
+          typ: "Distribuce",
+          název: { "cs": sr.name },
+          podmínky_užití: {
+            typ: "Specifikace podmínek užití",
+            autorské_dílo: license2iri.license_autorske_dilo[sr.license_autorske_dilo],
+            databáze_chráněná_zvláštními_právy: license2iri.license_zvlastni_prava_databaze[sr.license_zvlastni_prava_databaze],
+            databáze_jako_autorské_dílo: license2iri.license_originalni_databaze[sr.license_originalni_databaze],
+            osobní_údaje: license2iri.license_osobni_udaje[sr.license_osobni_udaje]
+          },
+          přístupové_url: fixUrl(sr.accessURL) || fixUrl(sr.service_endpointURL) || fixUrl(sr.service_endpointDescription),
+          přístupová_služba: service
+        };
+
+        services.push(service);
+        datasetDistributions.push(distribution);
+      }
+      else {
+
+        const distribution: DistribuceSoubor = {
+          iri,
+          typ: "Distribuce",
+          název: { "cs": sr.name },
+          formát: "http://publications.europa.eu/resource/authority/file-type/" + sr.format?.toUpperCase(),
+          typ_média,
+          podmínky_užití: {
+            typ: "Specifikace podmínek užití",
+            autorské_dílo: license2iri.license_autorske_dilo[sr.license_autorske_dilo],
+            databáze_chráněná_zvláštními_právy: license2iri.license_zvlastni_prava_databaze[sr.license_zvlastni_prava_databaze],
+            databáze_jako_autorské_dílo: license2iri.license_originalni_databaze[sr.license_originalni_databaze],
+            osobní_údaje: license2iri.license_osobni_udaje[sr.license_osobni_udaje]
+          },
+          soubor_ke_stažení: fixUrl(sr.downloadURL),
+          přístupové_url: fixUrl(sr.accessURL)
+        };
+
+        datasetDistributions.push(distribution);
+      }
+
     }
 
-    const dataset: PartialDatovaSada = {
+    const dataset: DatovaSada = {
       "@context": "https://pod-test.mvcr.gov.cz/otevřené-formální-normy/rozhraní-katalogů-otevřených-dat/draft/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
       iri: BASE_URL + "/" + sd.name,
       typ: "Datová sada",
@@ -79,8 +115,8 @@ async function fetchEntities(): Promise<Entity[]> {
       prvek_rúian: [sd.spatial],
       distribuce: datasetDistributions,
     };
-    
-    if(sd.isPartOf) dataset.je_součástí = BASE_URL + "/" + sd.isPartOf;
+
+    if (sd.isPartOf) dataset.je_součástí = BASE_URL + "/" + sd.isPartOf;
 
     distributions.push(...datasetDistributions);
     datasets.push(dataset);
@@ -94,7 +130,8 @@ async function fetchEntities(): Promise<Entity[]> {
   return [
     catalog,
     ...datasets,
-    ...distributions
+    ...distributions,
+    ...services
   ];
 }
 

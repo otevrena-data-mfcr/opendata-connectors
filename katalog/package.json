@@ -12,8 +12,8 @@
   "license": "GPL-3.0-or-later",
   "dependencies": {
     "axios": "^0.19.2",
-    "otevrene-formalni-normy-dts": "^0.1.11",
-    "opendata-connectors-common": "../common"
+    "opendata-connectors-common": "../common",
+    "otevrene-formalni-normy-dts": "^0.1.12"
   },
   "devDependencies": {
     "@types/node": "^14.0.26",
