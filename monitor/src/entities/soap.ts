@@ -13,7 +13,7 @@ export const SoapService: DatovaSluzba = {
     "en": "SOAP API"
   },
   přístupový_bod: "https://monitor.statnipokladna.cz/api/monitorws",
-  popis_přístupového_bodu: "https://monitor.statnipokladna.cz/datovy-katalog/webova-sluzby",
+  popis_přístupového_bodu: "https://monitor.statnipokladna.cz/datovy-katalog/webova-sluzba",
 }
 
 export const soapDistribution: DistribuceSluzba = {
