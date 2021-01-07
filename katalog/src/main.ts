@@ -1,11 +1,11 @@
 import axios from "axios";
 import https from "https";
+import { lookup } from "mime-types";
 
 import { createServer } from "opendata-connectors-common";
 
 import { Entity, OVM, RuianStat, Theme, Frequency, Distribuce, DatovaSada, DistribuceSoubor, DistribuceSluzba, DatovaSluzba } from "otevrene-formalni-normy-dts";
 import { ENDPOINT, BASE_URL, PORT, CACHE_TIMEOUT } from "./constants";
-import { type2mime, license2iri, theme2iri, frequency2iri } from "./conversions";
 import { catalog } from "./entities";
 import { KatalogPackageList, KatalogPackageShow, KatalogResourceShow } from "./schema/katalog";
 
@@ -47,8 +47,8 @@ async function fetchEntities(): Promise<Entity[]> {
 
       let typ_média: string = "";
 
-      if (sr.mimetype) typ_média = "http://www.iana.org/assignments/media-types/" + sr.mimetype;
-      else if (type2mime[sr.format?.toLowerCase()]) typ_média = "http://www.iana.org/assignments/media-types/" + type2mime[sr.format.toLowerCase()];
+      const mime = sr.mimetype || lookup(sr.format?.toLowerCase());
+      if (mime) typ_média = "http://www.iana.org/assignments/media-types/" + mime;
 
       if (sr.service_endpointURL || sr.service_endpointDescription) {
 
@@ -66,10 +66,10 @@ async function fetchEntities(): Promise<Entity[]> {
           název: { "cs": sr.name },
           podmínky_užití: {
             typ: "Specifikace podmínek užití",
-            autorské_dílo: license2iri.license_autorske_dilo[sr.license_autorske_dilo],
-            databáze_chráněná_zvláštními_právy: license2iri.license_zvlastni_prava_databaze[sr.license_zvlastni_prava_databaze],
-            databáze_jako_autorské_dílo: license2iri.license_originalni_databaze[sr.license_originalni_databaze],
-            osobní_údaje: license2iri.license_osobni_udaje[sr.license_osobni_udaje]
+            autorské_dílo: sr.license_autorske_dilo,
+            databáze_chráněná_zvláštními_právy: sr.license_zvlastni_prava_databaze,
+            databáze_jako_autorské_dílo: sr.license_originalni_databaze,
+            osobní_údaje: sr.license_osobni_udaje
           },
           přístupové_url: fixUrl(sr.accessURL) || fixUrl(sr.service_endpointURL) || fixUrl(sr.service_endpointDescription),
           přístupová_služba: service
@@ -88,10 +88,10 @@ async function fetchEntities(): Promise<Entity[]> {
           typ_média,
           podmínky_užití: {
             typ: "Specifikace podmínek užití",
-            autorské_dílo: license2iri.license_autorske_dilo[sr.license_autorske_dilo],
-            databáze_chráněná_zvláštními_právy: license2iri.license_zvlastni_prava_databaze[sr.license_zvlastni_prava_databaze],
-            databáze_jako_autorské_dílo: license2iri.license_originalni_databaze[sr.license_originalni_databaze],
-            osobní_údaje: license2iri.license_osobni_udaje[sr.license_osobni_udaje]
+            autorské_dílo: sr.license_autorske_dilo,
+            databáze_chráněná_zvláštními_právy: sr.license_zvlastni_prava_databaze,
+            databáze_jako_autorské_dílo: sr.license_originalni_databaze,
+            osobní_údaje: sr.license_osobni_udaje
           },
           soubor_ke_stažení: fixUrl(sr.downloadURL),
           přístupové_url: fixUrl(sr.accessURL)
@@ -109,8 +109,8 @@ async function fetchEntities(): Promise<Entity[]> {
       název: { "cs": sd.title, },
       popis: { "cs": sd.description ? sd.description.replace(/(<([^>]+)>)/g, "") : "" },
       poskytovatel: OVM.MF,
-      téma: [theme2iri[sd.theme] || Theme.Government],
-      periodicita_aktualizace: frequency2iri[sd.accrualPeriodicity],
+      téma: [sd.theme || Theme.Government],
+      periodicita_aktualizace: sd.accrualPeriodicity,
       klíčové_slovo: { "cs": sd.tags?.split(",").map(item => item.trim()) || [] },
       prvek_rúian: [sd.spatial],
       distribuce: datasetDistributions,

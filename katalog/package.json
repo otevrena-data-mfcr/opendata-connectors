@@ -12,10 +12,12 @@
   "license": "GPL-3.0-or-later",
   "dependencies": {
     "axios": "^0.19.2",
+    "mime-types": "^2.1.28",
     "opendata-connectors-common": "../common",
     "otevrene-formalni-normy-dts": "^0.1.12"
   },
   "devDependencies": {
+    "@types/mime-types": "^2.1.0",
     "@types/node": "^14.0.26",
     "typescript": "^3.9.7"
   }
