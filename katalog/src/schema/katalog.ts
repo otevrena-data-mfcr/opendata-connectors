@@ -11,6 +11,7 @@ export interface KatalogPackageShow {
     "id": string,
     "name": string,
     "title": string,
+    "publisher": string,
     "description": string,
     "theme": string,
 
