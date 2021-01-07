@@ -35,6 +35,7 @@ export interface KatalogResourceShow {
   "success": boolean,
   "result": {
     "id": string,
+    "title": string,
     "license_autorske_dilo": string,
     "license_originalni_databaze": string,
     "license_zvlastni_prava_databaze": string,
@@ -46,7 +47,6 @@ export interface KatalogResourceShow {
     "conformsTo": string,
     "compressFormat": string,
     "packageFormat": string,
-    "name": string,
     "service_endpointURL": string,
     "service_endpointDescription": string
   }

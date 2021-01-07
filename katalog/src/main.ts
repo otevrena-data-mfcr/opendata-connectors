@@ -55,7 +55,7 @@ async function fetchEntities(): Promise<Entity[]> {
         const service: DatovaSluzba & { iri: string } = {
           iri: iri + "/sluzba",
           typ: "Datová služba",
-          název: { "cs": sr.name },
+          název: { "cs": sr.title },
           přístupový_bod: fixUrl(sr.service_endpointURL) || fixUrl(sr.service_endpointDescription),
           popis_přístupového_bodu: fixUrl(sr.service_endpointDescription)
         };
@@ -63,7 +63,7 @@ async function fetchEntities(): Promise<Entity[]> {
         const distribution: DistribuceSluzba = {
           iri,
           typ: "Distribuce",
-          název: { "cs": sr.name },
+          název: { "cs": sr.title },
           podmínky_užití: {
             typ: "Specifikace podmínek užití",
             autorské_dílo: sr.license_autorske_dilo,
@@ -83,7 +83,7 @@ async function fetchEntities(): Promise<Entity[]> {
         const distribution: DistribuceSoubor = {
           iri,
           typ: "Distribuce",
-          název: { "cs": sr.name },
+          název: { "cs": sr.title },
           formát: "http://publications.europa.eu/resource/authority/file-type/" + sr.format?.toUpperCase(),
           typ_média,
           podmínky_užití: {
