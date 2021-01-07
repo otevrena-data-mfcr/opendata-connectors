@@ -6,7 +6,7 @@ export const cedrDataset: DatovaSada = {
   "@context": "https://pod-test.mvcr.gov.cz/otevřené-formální-normy/rozhraní-katalogů-otevřených-dat/draft/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
   iri: BASE_URL + "/cedr",
   typ: "Datová sada",
-  název: { "cs": "Centrální evidence dotací", "en": "Central Grants Registry" },
+  název: { "cs": "CEDR - Centrální evidence dotací", "en": "CEDR - Central Grants Registry" },
   popis: { "cs": "Centrální evidence dotací ze státního rozpočtu, státních fondů, státních finančních aktiv a Národního fondu (včetně evropských dotací)", },
   poskytovatel: OVM.GFŘ,
   téma: [Theme.Government],
