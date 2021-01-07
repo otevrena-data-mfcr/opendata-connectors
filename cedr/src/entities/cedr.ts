@@ -8,7 +8,7 @@ export const cedrDataset: DatovaSada = {
   typ: "Datová sada",
   název: { "cs": "Centrální evidence dotací", "en": "Central Grants Registry" },
   popis: { "cs": "Centrální evidence dotací ze státního rozpočtu, státních fondů, státních finančních aktiv a Národního fondu (včetně evropských dotací)", },
-  poskytovatel: OVM.MF,
+  poskytovatel: OVM.GFŘ,
   téma: [Theme.Government],
   periodicita_aktualizace: Frequency.Monthly, //nejmensi z podrizenych
   klíčové_slovo: { "cs": ["dotace"], "en": ["grants"] },
