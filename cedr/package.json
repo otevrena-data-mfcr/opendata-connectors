@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/main.js",
     "build": "tsc",
-    "build:docker": "docker build -f ./Dockerfile -t opendata-connectors-cedr ../"
+    "build:docker": "docker build -t opendata-connectors-cedr ."
   },
   "author": "",
   "license": "GPL-3.0-or-later",
@@ -17,7 +17,6 @@
   "dependencies": {
     "axios": "^0.19.2",
     "change-case": "^4.1.1",
-    "otevrene-formalni-normy-dts": "^0.1.11",
-    "opendata-connectors-common": "../common"
+    "otevrene-formalni-normy-dts": "^0.1.11"
   }
 }

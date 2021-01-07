@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/main.js",
     "build": "tsc",
-    "build:docker": "docker build -f ./Dockerfile -t opendata-connectors-monitor ../"
+    "build:docker": "docker build -t opendata-connectors-monitor ."
   },
   "author": "",
   "license": "ISC",
@@ -18,7 +18,6 @@
   "dependencies": {
     "axios": "^0.19.2",
     "luxon": "^1.24.1",
-    "opendata-connectors-common": "../common",
     "otevrene-formalni-normy-dts": "^0.1.12"
   }
 }

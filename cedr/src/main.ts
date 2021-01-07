@@ -1,14 +1,13 @@
 import axios from "axios";
 import { snakeCase, sentenceCase } from "change-case";
 
-import { createServer } from "opendata-connectors-common";
-
 import { Entity, DatovaSada, Frequency, RuianStat, Theme, PodminkyUzitiDilo, PodminkyUzitiDatabazeZvlastni, PodminkyUzitiDatabazeDilo, PodminkyUzitiOsobniUdaje, Katalog, OVM, Distribuce } from "otevrene-formalni-normy-dts";
 import { CedrEndpoint } from "./schema/cedr-endpoint";
 
 import { sparqlDataset } from "./entities/sparql";
 import { catalog } from "./entities/catalog";
 import { cedrDataset } from "./entities/cedr";
+import { createServer } from "./server";
 
 const BASE_URL = process.env["BASE_URL"] || "";
 const PORT = process.env["PORT"] ? Number(process.env["PORT"]) : 3000;

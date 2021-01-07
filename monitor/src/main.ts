@@ -1,13 +1,12 @@
 import { Entity, DatovaSada, Distribuce, DistribuceSluzba, DatovaSluzba } from "otevrene-formalni-normy-dts";
 
-import { createServer } from "opendata-connectors-common";
-
 import { soapDataset } from "./entities/soap";
 import { catalog } from "./entities/catalog";
 import { monitorDataset } from "./entities/monitor-dataset";
 import { getTransactionDatasets } from "./transaction-datasets";
 import { BASE_URL, CACHE_TIMEOUT, PORT } from "./const";
 import { getCodelistDatasets } from "./codelist-datasets";
+import { createServer } from "./server";
 
 async function fetchEntities(): Promise<Entity[]> {
 
