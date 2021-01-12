@@ -28,7 +28,7 @@ export const sparqlDistribution: DistribuceSluzba = {
 };
 
 export const sparqlDataset: DatovaSada = {
-  "@context": "https://pod-test.mvcr.gov.cz/otevřené-formální-normy/rozhraní-katalogů-otevřených-dat/draft/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
+  "@context": "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/2021-01-11/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
   typ: "Datová sada",
   iri: BASE_URL + "/sparql",
   distribuce: [

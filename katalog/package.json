@@ -14,7 +14,7 @@
     "axios": "^0.19.2",
     "fastify": "^3.9.2",
     "mime-types": "^2.1.28",
-    "otevrene-formalni-normy-dts": "^0.1.12"
+    "otevrene-formalni-normy-dts": "^1.0.2"
   },
   "devDependencies": {
     "@types/mime-types": "^2.1.0",

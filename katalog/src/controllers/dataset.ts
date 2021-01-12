@@ -11,7 +11,7 @@ export async function getDataset(id: string) {
   const sd = await axios.get<KatalogPackageShow>(`${ENDPOINT}/package_show?id=${id}`, { responseType: "json", httpsAgent, timeout: 10000 }).then(res => res.data.result);
 
   const dataset: DatovaSada = {
-    "@context": "https://pod-test.mvcr.gov.cz/otevřené-formální-normy/rozhraní-katalogů-otevřených-dat/draft/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
+    "@context": "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/2021-01-11/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
     iri: BASE_URL + "/" + sd.name,
     typ: "Datová sada",
     název: { "cs": sd.title, },

@@ -67,7 +67,7 @@ async function getDatasets(endpointMeta: { name: string, url: string }): Promise
     .then(res => res.data[0]);
 
   const endpointDataset: DatovaSada = {
-    "@context": "https://pod-test.mvcr.gov.cz/otevřené-formální-normy/rozhraní-katalogů-otevřených-dat/draft/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
+    "@context": "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/2021-01-11/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
     iri: BASE_URL + "/dataset-" + endpointMeta.name,
     typ: "Datová sada",
     distribuce: [],
@@ -105,7 +105,7 @@ async function getDatasets(endpointMeta: { name: string, url: string }): Promise
 
     if (!dataset) {
       dataset = {
-        "@context": "https://pod-test.mvcr.gov.cz/otevřené-formální-normy/rozhraní-katalogů-otevřených-dat/draft/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
+        "@context": "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/2021-01-11/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
         iri: iri_dataset,
         typ: "Datová sada",
         distribuce: [],

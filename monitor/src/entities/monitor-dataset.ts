@@ -3,7 +3,7 @@ import { DatovaSada, OVM, Theme, RuianStat, Frequency } from "otevrene-formalni-
 const BASE_URL = process.env["BASE_URL"] || "";
 
 export const monitorDataset: DatovaSada = {
-  "@context": "https://pod-test.mvcr.gov.cz/otevřené-formální-normy/rozhraní-katalogů-otevřených-dat/draft/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
+  "@context": "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/2021-01-11/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
   iri: BASE_URL + "/MONITOR",
   typ: "Datová sada",
   název: { "cs": "MONITOR Státní pokladny" },
