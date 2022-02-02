@@ -23,7 +23,7 @@ export async function getDataset(id: string) {
     prvek_rúian: [sd.spatial],
     specifikace: [sd.page],
     dokumentace: [sd.page],
-    klasifikace dle EuroVoc: [sd.klasifikace_dle_eurovoc], 
+    klasifikace dle EuroVoc: [sd.koncept_euroVoc], 
     distribuce: [],
   };
 
