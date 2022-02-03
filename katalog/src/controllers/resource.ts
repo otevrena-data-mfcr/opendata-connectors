@@ -60,7 +60,7 @@ export async function getResource(id: string) {
       podmínky_užití,
       soubor_ke_stažení: fixUrl(sr.downloadURL),
       přístupové_url: fixUrl(sr.accessURL),
-      schéma: fixUrl(sr.schemaURL)
+      schéma: sr.sch_ma
     };
 
     return distribution;
