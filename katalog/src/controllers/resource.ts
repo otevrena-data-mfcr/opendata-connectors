@@ -42,6 +42,7 @@ export async function getResource(id: string) {
       typ: "Distribuce",
       název,
       podmínky_užití,
+      schéma: sr.sch_ma,
       přístupové_url: fixUrl(sr.accessURL) || fixUrl(sr.service_endpointURL) || fixUrl(sr.service_endpointDescription),
       přístupová_služba: service
     };
