@@ -22,8 +22,8 @@ export async function getDataset(id: string) {
     klíčové_slovo: { "cs": sd.tags?.split(",").map(item => item.trim()) || [] },
     prvek_rúian: [sd.spatial],
     koncept_eurovoc: [sd.eurovoc],
-    specifikace: [sd.conformsTo],
-    dokumentace: [sd.page],
+    specifikace: sd.conformsTo,
+    dokumentace: sd.page,
     distribuce: [],
   };
 
