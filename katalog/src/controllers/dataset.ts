@@ -21,9 +21,9 @@ export async function getDataset(id: string) {
     periodicita_aktualizace: sd.accrualPeriodicity,
     klíčové_slovo: { "cs": sd.tags?.split(",").map(item => item.trim()) || [] },
     prvek_rúian: [sd.spatial],
-    specifikace: [sd.page],
+    specifikace: [sd.conformsTo],
     dokumentace: [sd.page],
-    klasifikace dle EuroVoc: [sd.koncept_euroVoc], 
+    klasifikace dle EuroVoc: [sd.eurovoc], 
     distribuce: [],
   };
 
