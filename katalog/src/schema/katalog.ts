@@ -20,7 +20,7 @@ export interface KatalogPackageShow {
     "spatial": string,
     "temporal_startDate": string,
     "temporal_endDate": string,
-    "eurovoc": string,
+    "koncept_euroVoc": string,
 
     "contactPoint": string,
     "page": string,
