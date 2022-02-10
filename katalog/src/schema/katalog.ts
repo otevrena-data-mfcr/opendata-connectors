@@ -49,7 +49,6 @@ export interface KatalogResourceShow {
     "conformsTo": string,
     "compressFormat": string,
     "packageFormat": string,
-    "sch_ma": string,
     "service_endpointURL": string,
     "service_endpointDescription": string
   }
