@@ -1,9 +1,8 @@
 import axios from "axios";
 import { Katalog, OVM } from "otevrene-formalni-normy-dts";
-
 import { BASE_URL, ENDPOINT } from "../constants";
-import { KatalogPackageList } from "../schema/katalog";
 import { httpsAgent } from "../functions";
+import { KatalogPackageList } from "../schema/katalog";
 
 export async function getCatalog() {
   const catalog: Katalog = {
@@ -16,7 +15,7 @@ export async function getCatalog() {
     },
     popis: { "cs": "" },
     poskytovatel: OVM.MF,
-    domovská_stránka: "https://data.mfcr.cz",
+    domovská_stránka: "https://opendata.mfcr.cz",
     datová_sada: []
   };
 

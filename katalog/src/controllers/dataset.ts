@@ -1,9 +1,9 @@
 import axios from "axios";
 import { DatovaSada, OVM, Theme } from "otevrene-formalni-normy-dts";
 
-import { ENDPOINT, BASE_URL } from "../constants";
-import { KatalogPackageShow } from "../schema/katalog";
+import { BASE_URL, ENDPOINT } from "../constants";
 import { httpsAgent } from "../functions";
+import { KatalogPackageShow } from "../schema/katalog";
 import { getResource } from "./resource";
 
 export async function getDataset(id: string) {
@@ -21,7 +21,7 @@ export async function getDataset(id: string) {
     periodicita_aktualizace: sd.accrualPeriodicity,
     klíčové_slovo: { "cs": sd.tags?.split(",").map(item => item.trim()) || [] },
     prvek_rúian: [sd.spatial],
-    koncept_euroVoc: sd.koncept_euroVoc,
+    koncept_euroVoc: [sd.koncept_euroVoc],
     specifikace: sd.conformsTo,
     dokumentace: sd.page,
     distribuce: [],

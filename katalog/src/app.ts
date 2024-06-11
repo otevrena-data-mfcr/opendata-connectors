@@ -8,7 +8,9 @@ export class App {
 
   async start() {
 
-    const server = fastify();
+    const server = fastify({
+      maxParamLength: 1000,
+    });
 
     server.get("/", async (req, res) => {
       return getCatalog();
