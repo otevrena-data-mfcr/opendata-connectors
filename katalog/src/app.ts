@@ -9,7 +9,7 @@ export class App {
   async start() {
 
     const server = fastify({
-      maxParamLength: 1000,
+      maxParamLength: 1800,
     });
 
     server.get("/", async (req, res) => {
